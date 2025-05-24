@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O elementu | Artitudo</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/scattered-images.css">
+    <link rel="stylesheet" href="style/info.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section" onclick="location.href='#'">
+            <div class="logo"><img src="images/logo-mini.png" alt="Logo Mini" class="logo-mini"></div>
+            <div class="studio-name"><img src="images/logo-text.PNG" alt="Logo Text" class="logo-text"></div>
+        </div>
+        <nav class="nav-icons">
+            <a href="#" class="nav-icon"><img src="icons/search.png" alt="Search icon"></a>
+            <a href="#" class="nav-icon"><img src="icons/checkmark.svg" alt="Checkmark icon"></a>
+            <a href="#" class="nav-icon"><img src="icons/heart.svg" alt="Heart icon"></a>
+            <a href="#" class="nav-icon"><img src="icons/star.svg" alt="Star icon"></a>
+            <a href="#" class="nav-icon"><img src="icons/account.svg" alt="Account icon"></a>
+            <a href="#" class="nav-icon"><img src="icons/home.svg" alt="Home icon"></a>
+        </nav>
+    </header>
+
+    <section class="intro second-intro">
+        <div class="hero-content">
+            <div class="content-box">
+                <h1 class="big-text">Informacije o elementu</h1>
+                <p class="small-text">Kod svakog elementa možete pronaći njihov opis, sliku i video izvođenja.</p>
+            </div>
+        </div>
+        <div class="hero-logo">
+            <div class="full-logo"><img src="images/logo-big.png" alt="Logo" class="logo-big"></div>
+        </div>
+    </section>
+
+    <section class="element-detail-section">
+        <div class="element-detail-container">
+            <div class="element-image-column">
+                <div class="element-image">
+                    <span>Element Slika</span>
+                </div>
+            </div>
+            <div class="element-info-column">
+                <div class="element-info-card">
+                    <h3 class="element-name">Shoulder Mount</h3>
+                    <div class="element-level">
+                        <span class="level-badge">Intermediate</span>
+                    </div>
+                    <p class="element-description">
+                        Shoulder mount je jedan od osnovnih elemenata u aerial arts disciplinama. 
+                        Ovaj pokret zahtijeva snagu ramena i pravilnu tehniku za sigurno izvođenje. 
+                        Preporučuje se redovito vježbanje pod nadzorom instruktora.
+                    </p>
+                    <div class="element-divider"></div>
+                    <div class="folder-icons">
+                        <div class="folder-icon" title="Usavršeni elementi"><img src="icons/checkmark.svg" alt="Checkmark icon"></div>
+                        <div class="folder-icon" title="Favoriti"><img src="icons/heart.svg" alt="Heart icon"></div>
+                        <div class="folder-icon" title="Želje"><img src="icons/star.svg" alt="Star icon"></div>
+                    </div>
+                    <div class="element-divider"></div>
+                    <div class="element-actions">
+                        <button class="action-button">Uredi</button>
+                        <button class="action-button delete-button">Obriši</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- galerija sa sliderom -->
+     <section class="gallery-slider-section">
+        <div class="slider-text-content">
+            <h2 class="slider-title">XY+ elemenata koje možete naučiti kod nas...</h2>
+            <button class="slider-button">Prijavi se</button>
+        </div>
+        
+        <div class="slider-right-content">
+            <div class="left-image-container">
+                <div class="left-slider-container" id="leftSliderContainer">
+                    <div class="left-slide">Advanced Silks Training</div>
+                    <div class="left-slide">Lyra Fundamentals</div>
+                    <div class="left-slide">Trapeze Mastery</div>
+                    <div class="left-slide">Straps Excellence</div>
+                </div>
+            </div>
+            
+            <!-- Right image with controls -->
+            <div class="right-image-section">
+                <div class="right-image-container">
+                    <div class="right-slider-container" id="rightSliderContainer">
+                        <div class="right-slide">Studio Interior</div>
+                        <div class="right-slide">Class Session</div>
+                        <div class="right-slide">Performance</div>
+                        <div class="right-slide">Workshop</div>
+                    </div>
+                </div>
+            
+                <div class="slider-dots">
+                    <div class="dot active" onclick="goToSlide(0)"></div>
+                    <div class="dot" onclick="goToSlide(1)"></div>
+                    <div class="dot" onclick="goToSlide(2)"></div>
+                    <div class="dot" onclick="goToSlide(3)"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3 class="footer-title">Artitudo aerial arts</h3>
+                <p class="footer-info">
+                    Pridružite se našoj zajednici i otkrijte svoju strast za pokretom. 
+                    Nudimo satove za sve uzraste i razine iskustva.
+                </p>
+            </div>
+            <div class="footer-column"></div>
+            <div class="footer-column">
+                <div class="footer-links">
+                    <div class="links-column">
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Link</a>
+                    </div>
+                    <div class="links-column">
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Galerija</a>
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Link</a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="footer-column">
+                <h4 class="contact-title">Imate pitanja?</h4>
+                <form class="contact-form">
+                    <input type="text" class="contact-input" placeholder="Vaše pitanje..." required>
+                    <input type="email" class="contact-input" placeholder="Vaš email..." required>
+                    <button type="submit" class="contact-button">Pošalji</button>
+                </form>
+            </div>
+        </div>
+    
+        <div class="footer-bottom">2025 Artitudo</div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 4;
+
+        function goToSlide(slideIndex) {
+            const leftContainer = document.getElementById('leftSliderContainer');
+            const rightContainer = document.getElementById('rightSliderContainer');
+            const dots = document.querySelectorAll('.dot');   
+            // Update current slide
+            currentSlide = slideIndex;      
+            // Move slider
+            const translateX = -slideIndex * (25-0.016); // adjusting for the width of the white gap
+            leftContainer.style.transform = `translateX(${translateX}%)`;
+            rightContainer.style.transform = `translateX(${translateX}%)`;        
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === slideIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function autoSlide() {
+            const nextSlide = (currentSlide + 1) % totalSlides;
+            goToSlide(nextSlide);
+        }
+        setInterval(autoSlide, 3000); // change slide every 3 seconds
+    </script>
+</body>
+</html>
