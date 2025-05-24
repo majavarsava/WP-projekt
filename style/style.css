@@ -83,12 +83,17 @@ body {
 
 /* intro Section */
 .intro {
-    background: #E6E6FA;
-    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #F0F0F8, #bfbffa); 
+    padding: 2rem 6rem;
     display: flex;
     align-items: center;
     gap: 4rem;
     min-height: 60vh;
+}
+
+.second-intro {
+    background: linear-gradient(135deg, #bfbffa, #F0F0F8); 
+
 }
 
 .hero-logo {
@@ -118,8 +123,7 @@ body {
 
 .content-box {
     background: white;
-    padding: 4rem;
-    margin-right: 4rem;
+    padding: 3rem;
     border-radius: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
@@ -162,9 +166,10 @@ body {
 
 /* Content Sections */
 .content-section {
-    background: #bfbffa94;
+    background: linear-gradient(90deg, #F0F0F8, #bfbffa); 
     padding: 4rem 2rem 2rem;
     text-align: center;
+    border-bottom: 1px solid #ffffff;
 }
 
 .section-title {
@@ -197,7 +202,7 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.gallery-item:hover, .gallery-item-element:hover {
+.gallery-item:hover, .elements-item:hover {
     transform: scale(1.05);
     z-index: 10;
     background: #bfbffa ;
@@ -556,26 +561,6 @@ body {
 
 /* ------------------------------------------------------------------------------------------------------------ */
 /* elements.html */
-.second-intro {
-    background: linear-gradient(135deg, #bfbffa, #F0F0F8); /* Adjust colors as needed */
-    height: 20rem; /* Full viewport height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.content-middle-text {
-    text-align: center; /* Center text horizontally */
-    color: white; /* Adjust text color for better contrast */
-}
-.content-middle-text h1 {
-    font-size: 2.5rem; /* Adjust font size */
-    margin-bottom: 1rem; /* Space between title and subtitle */
-}
-.content-middle-text p {
-    font-size: 1rem; /* Adjust font size */
-    color: #666; /* Adjust subtitle color */
-}
 
 .filter-section {
     margin: 0;
