@@ -1,0 +1,34 @@
+<header class="header">
+    <div class="logo-section" onclick="location.href='#'">
+        <div class="logo"><img src="images/logo-mini.png" alt="Logo Mini" class="logo-mini"></div>
+        <div class="studio-name"><img src="images/logo-text.PNG" alt="Logo Text" class="logo-text"></div>
+    </div>
+    <nav class="nav-icons">
+        <a href="#" class="nav-icon"><img src="icons/search.png" alt="Search icon"></a>
+        <a href="#" class="nav-icon"><img src="icons/checkmark.svg" alt="Checkmark icon"></a>
+        <a href="#" class="nav-icon"><img src="icons/heart.svg" alt="Heart icon"></a>
+        <a href="#" class="nav-icon"><img src="icons/star.svg" alt="Star icon"></a>
+        <a href="#" class="nav-icon"><img src="icons/account.svg" alt="Account icon"></a>
+        <a href="#" class="nav-icon"><img src="icons/home.svg" alt="Home icon"></a>
+    </nav>
+</header>
+
+<!-- za ako zelim reuseat -->
+<!-- 
+<div id="header-placeholder"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("reuse/header.html")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to load header");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById("header-placeholder").innerHTML = data;
+                })
+                .catch(error => console.error("Error loading header:", error));
+        });
+    </script> -->

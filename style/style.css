@@ -197,8 +197,33 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.gallery-item:hover {
-    background: #bfbffa  ;
+.gallery-item:hover, .gallery-item-element:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    background: #bfbffa ;
+}
+
+.elements {
+    display: flex;
+    gap: 5rem;
+    justify-content: center;
+    margin-bottom: 0rem;
+    flex-wrap: wrap;
+}
+
+.elements-item{
+    width: 18rem;
+    height: 24rem;
+    background: #a5a5a5;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .section-button {
@@ -523,4 +548,93 @@ body {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
+}
+
+
+
+
+
+/* ------------------------------------------------------------------------------------------------------------ */
+/* elements.html */
+.second-intro {
+    background: linear-gradient(135deg, #bfbffa, #F0F0F8); /* Adjust colors as needed */
+    height: 20rem; /* Full viewport height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-middle-text {
+    text-align: center; /* Center text horizontally */
+    color: white; /* Adjust text color for better contrast */
+}
+.content-middle-text h1 {
+    font-size: 2.5rem; /* Adjust font size */
+    margin-bottom: 1rem; /* Space between title and subtitle */
+}
+.content-middle-text p {
+    font-size: 1rem; /* Adjust font size */
+    color: #666; /* Adjust subtitle color */
+}
+
+.filter-section {
+    margin: 0;
+    padding: 3rem;
+    background: #ffffff;
+    border-radius: 0.5rem;
+    text-align: left;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-search {
+    margin-bottom: 1.5rem;
+}
+
+.search-bar {
+    width: 20%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    font-size: 1rem;
+}
+
+.search-button {
+    padding: 0.75rem 1.5rem;
+    margin-left: 0.5rem;
+    background: #9370DB;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background: #bfbffa;
+}
+
+.filter-buttons {
+    margin-bottom: 1.5rem;
+}
+
+.filter-button {
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    background: #DDA0DD;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.filter-button:hover {
+    background: #bfbffa;
+}
+
+.filter-text {
+    font-size: 1rem;
+    padding-left: 0.5rem;
+    color: #666;
 }
