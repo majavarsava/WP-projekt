@@ -446,7 +446,7 @@ body {
     border: 1px solid #F0F0F8;
     border-radius: 1rem;
     padding: 0.8rem;
-    color: white;
+    color: 707070;
     font-size: 0.9rem;
 }
 
@@ -577,10 +577,21 @@ body {
 
 .search-bar {
     width: 20%;
-    padding: 0.75rem;
-    border: 1px solid #ccc;
+    padding: 0.8rem;
+    background: #F0F0F8 ;
+    border: 1px solid #F0F0F8;
+    color: #707070;
     border-radius: 1rem;
     font-size: 1rem;
+}
+
+.search-bar::placeholder {
+    color: #999;
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: #9370DB;
 }
 
 .search-button {

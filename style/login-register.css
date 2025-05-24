@@ -1,0 +1,144 @@
+/* login, register, add element, ugl sve sto treba za input fieldove */
+
+/* Login Section */
+.login-section {
+    background: white;
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.login-form-container {
+    background: white;
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 40rem;
+    text-align: center;
+}
+
+.login-title {
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #9370DB;
+}
+
+.login-button {
+    background: #9370DB;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.login-button:hover {
+    background: #bfbffa;
+}
+
+.signup-text {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.signup-link {
+    color: #9370DB;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+/* Media Upload Section */
+.upload-section {
+    background: white;
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    border-top: 1px solid #f0f0f0;
+}
+
+.upload-form-container {
+    background: white;
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.upload-title {
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-upload-label {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.file-upload-button {
+    background: #bfbffa;
+    color: white;
+    padding: 0.5rem 0.5rem;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    display: inline-block;
+}
+
+.file-upload-button:hover {
+    background: #E6E6FA;
+}
+
+.file-input:focus {
+    outline: none;
+    border-color: #9370DB;
+}
