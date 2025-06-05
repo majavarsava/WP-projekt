@@ -1,0 +1,234 @@
+.game-container {
+    background: white;
+    padding: 4rem 2rem 2rem;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.game-explanation {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.game-explanation h2 {
+    font-size: 2rem;
+    color: #000000;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+.game-explanation p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.start-button, .submit-button, .next-game-button {
+    background: #9370DB;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.start-button:hover, .submit-button:hover, .next-game-button:hover {
+    background: #bfbffa;
+}
+
+.submit-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.game-area {
+    display: none;
+}
+
+.game-area.active {
+    display: block;
+}
+
+.images-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 5rem;
+}
+
+.image-box {
+    text-align: center;
+    border: 2px dashed #DDA0DD;
+    border-radius: 1rem;
+    padding: 2rem;
+    min-height: 280px;
+    width: 18rem;
+    position: relative;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.image-box.drag-over {
+    border-color: #9370DB;
+    background: #F0F0F8;
+}
+
+.element-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.element-image:hover {
+    transform: scale(1.05);
+}
+
+.drop-zone {
+    min-height: 50px;
+    border: 1px dashed #DDA0DD;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    background: #F0F0F8;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    color: #9370DB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drop-zone.drag-over {
+    border-color: #9370DB;
+    background: #bfbffa;
+    color: white;
+}
+
+.names-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.name-tag {
+    background: #9370DB;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 2rem;
+    cursor: grab;
+    user-select: none;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.name-tag:hover {
+    background: #bfbffa;
+    transform: translateY(-2px);
+}
+
+.name-tag.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.name-tag.placed {
+    background: #28a745;
+}
+
+.game-controls {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.result-message {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.result-message.success {
+    background: #F0F0F8;
+    color: #9370DB;
+    border: 2px solid #DDA0DD;
+}
+
+.result-message.error {
+    background: #F0F0F8;
+    color: #999;
+    border: 2px solid #ccc;
+}
+
+.post-game-controls {
+    display: none;
+    text-align: center;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.post-game-controls.show {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .game-container {
+        padding: 2rem 1rem;
+    }
+    
+    .images-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+            
+    .image-box {
+        width: 100%;
+        max-width: 18rem;
+    }
+    
+    .names-container {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .post-game-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .game-explanation h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .images-container {
+        gap: 1rem;
+    }
+    
+    .image-box {
+        padding: 1rem;
+        min-height: 220px;
+    }
+    
+    .name-tag {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+}

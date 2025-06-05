@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poveži ime i element | Artitudo</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/scattered-images.css">
+    <link rel="stylesheet" href="style/info.css">
+    <link rel="stylesheet" href="style/game.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section" onclick="location.href='index.html'">
+            <div class="logo"><img src="images/logo-mini.png" alt="Logo Mini" class="logo-mini"></div>
+            <div class="studio-name"><img src="images/logo-text.PNG" alt="Logo Text" class="logo-text"></div>
+        </div>
+        <nav class="nav-icons">
+            <a href="elements.html" class="nav-icon"><img src="icons/search.svg" alt="Search icon"></a>
+            <a href="folder-usavrseni.html" class="nav-icon"><img src="icons/checkmark.svg" alt="Checkmark icon"></a>
+            <a href="folder-favoriti.html" class="nav-icon"><img src="icons/heart.svg" alt="Heart icon"></a>
+            <a href="folder-zelje.html" class="nav-icon"><img src="icons/star.svg" alt="Star icon"></a>
+            <a href="profile.html" class="nav-icon"><img src="icons/account.svg" alt="Account icon"></a>
+            <a href="index.html" class="nav-icon"><img src="icons/home.svg" alt="Home icon"></a>
+        </nav>
+    </header>
+
+    <section class="intro second-intro">
+        <div class="hero-content">
+            <div class="content-box">
+                <h1 class="big-text">Testiraj znanje!</h1>
+                <p class="small-text">Provjeri znaš li kako se zovu elementi sa slike...</p>
+            </div>
+        </div>
+        <div class="hero-logo">
+            <div class="full-logo"><img src="images/logo-big.png" alt="Logo" class="logo-big"></div>
+        </div>
+    </section>
+
+
+    <section class="game-container">
+        <div class="game-explanation">
+            <h2>Povežite imena s elementima</h2>
+            <p>Povucite imena elemenata i stavite ih pod odgovarajuće slike. Trebate povezati sva tri imena prije nego što možete predati odgovore.</p>
+            <button class="start-button" onclick="startGame()">Igraj</button>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div class="images-container" id="imagesContainer">
+                <!-- Images will be loaded here -->
+            </div>
+
+            <div class="names-container" id="namesContainer">
+                <!-- Names will be loaded here -->
+            </div>
+
+            <div class="game-controls">
+                <button class="submit-button" id="submitButton" onclick="checkAnswers()" disabled>Predaj</button>
+            </div>
+
+            <div class="result-message" id="resultMessage"></div>
+
+            <div class="post-game-controls" id="postGameControls">
+                <button class="next-game-button" onclick="nextGame()">Sljedeća igra</button>
+            </div>
+        </div>
+    </section>
+
+
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3 class="footer-title">Artitudo aerial arts</h3>
+                <p class="footer-info">
+                    Pridružite se našoj zajednici i otkrijte svoju strast za pokretom. 
+                    Nudimo satove za sve uzraste i razine iskustva.
+                </p>
+            </div>
+            <div class="footer-column"></div>
+            <div class="footer-column">
+                <div class="footer-links">
+                    <div class="links-column">
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Link</a>
+                    </div>
+                    <div class="links-column">
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Galerija</a>
+                        <a href="#" class="footer-link">Link</a>
+                        <a href="#" class="footer-link">Link</a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="footer-column">
+                <h4 class="contact-title">Imate pitanja?</h4>
+                <form class="contact-form">
+                    <input type="text" class="contact-input" placeholder="Vaše pitanje..." required>
+                    <input type="email" class="contact-input" placeholder="Vaš email..." required>
+                    <button type="submit" class="contact-button">Pošalji</button>
+                </form>
+            </div>
+        </div>
+    
+        <div class="footer-bottom">2025 Artitudo</div>
+    </footer>
+
+
+    <script>
+        // Game data - you can modify these to use your actual images and names
+        const gameData = {
+            elements: [
+                {
+                    name: "Silks",
+                    image: "https://via.placeholder.com/100x100/FF6B6B/FFFFFF?text=Silks",
+                    id: "silks"
+                },
+                {
+                    name: "Lyra",
+                    image: "https://via.placeholder.com/100x100/4ECDC4/FFFFFF?text=Lyra",
+                    id: "lyra"
+                },
+                {
+                    name: "Trapeze",
+                    image: "https://via.placeholder.com/100x100/45B7D1/FFFFFF?text=Trapeze",
+                    id: "trapeze"
+                }
+            ],
+            distractors: ["Pole", "Hammock", "Straps"] // Extra names to make it harder
+        };
+
+        let gameState = {
+            placedItems: {},
+            gameCompleted: false
+        };
+
+        function startGame() {
+            document.querySelector('.game-explanation').style.display = 'none';
+            document.getElementById('gameArea').classList.add('active');
+            loadGame();
+        }
+
+        function loadGame() {
+            loadImages();
+            loadNames();
+            setupDragAndDrop();
+        }
+
+        function loadImages() {
+            const container = document.getElementById('imagesContainer');
+            container.innerHTML = '';
+            
+            gameData.elements.forEach(element => {
+                const imageBox = document.createElement('div');
+                imageBox.className = 'image-box';
+                imageBox.innerHTML = `
+                    <img src="${element.image}" alt="${element.name}" class="element-image" data-element="${element.id}">
+                    <div class="drop-zone" data-target="${element.id}"></div>
+                `;
+                container.appendChild(imageBox);
+            });
+        }
+
+        function loadNames() {
+            const container = document.getElementById('namesContainer');
+            container.innerHTML = '';
+            
+            // Combine correct names with distractors
+            const allNames = [...gameData.elements.map(e => e.name), ...gameData.distractors];
+            
+            // Shuffle the names
+            allNames.sort(() => Math.random() - 0.5);
+            
+            allNames.forEach(name => {
+                const nameTag = document.createElement('div');
+                nameTag.className = 'name-tag';
+                nameTag.textContent = name;
+                nameTag.draggable = true;
+                nameTag.dataset.name = name;
+                container.appendChild(nameTag);
+            });
+        }
+
+        function setupDragAndDrop() {
+            // Setup drag events for name tags
+            document.querySelectorAll('.name-tag').forEach(tag => {
+                tag.addEventListener('dragstart', handleDragStart);
+                tag.addEventListener('dragend', handleDragEnd);
+            });
+
+            // Setup drop events for drop zones
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragenter', handleDragEnter);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+            });
+
+            // Setup click events for images (disabled initially)
+            document.querySelectorAll('.element-image').forEach(img => {
+                img.addEventListener('click', handleImageClick);
+            });
+        }
+
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.dataset.name);
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            e.target.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.target.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.target.classList.remove('drag-over');
+            
+            const draggedName = e.dataTransfer.getData('text/plain');
+            const targetId = e.target.dataset.target;
+            
+            // Clear previous item in this drop zone
+            e.target.innerHTML = '';
+            
+            // Remove item from previous location if it was placed elsewhere
+            Object.keys(gameState.placedItems).forEach(key => {
+                if (gameState.placedItems[key] === draggedName) {
+                    delete gameState.placedItems[key];
+                }
+            });
+            
+            // Place the item
+            gameState.placedItems[targetId] = draggedName;
+            e.target.textContent = draggedName;
+            
+            // Remove the dragged item from the names container
+            const draggedElement = document.querySelector(`[data-name="${draggedName}"]`);
+            if (draggedElement) {
+                draggedElement.remove();
+            }
+            
+            checkIfCanSubmit();
+        }
+
+        function checkIfCanSubmit() {
+            const submitButton = document.getElementById('submitButton');
+            const placedCount = Object.keys(gameState.placedItems).length;
+            
+            if (placedCount === gameData.elements.length) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+        function checkAnswers() {
+            let correctCount = 0;
+            let totalCount = gameData.elements.length;
+            
+            gameData.elements.forEach(element => {
+                if (gameState.placedItems[element.id] === element.name) {
+                    correctCount++;
+                }
+            });
+            
+            const resultMessage = document.getElementById('resultMessage');
+            const postGameControls = document.getElementById('postGameControls');
+            
+            if (correctCount === totalCount) {
+                resultMessage.textContent = `Bravo! Točno ste povezali svih ${correctCount} elemenata!`;
+                resultMessage.className = 'result-message success';
+                
+                // Enable image clicks
+                document.querySelectorAll('.element-image').forEach(img => {
+                    img.style.cursor = 'pointer';
+                    img.style.opacity = '1';
+                });
+            } else {
+                resultMessage.textContent = `Imate ${correctCount} od ${totalCount} točnih odgovora. Pokušajte ponovno!`;
+                resultMessage.className = 'result-message error';
+            }
+            
+            gameState.gameCompleted = true;
+            postGameControls.classList.add('show');
+            
+            // Disable submit button
+            document.getElementById('submitButton').disabled = true;
+        }
+
+        function handleImageClick(e) {
+            if (gameState.gameCompleted) {
+                window.location.href = 'element-page.html';
+            }
+        }
+
+        function nextGame() {
+            // Reset game state
+            gameState = {
+                placedItems: {},
+                gameCompleted: false
+            };
+            
+            // Hide result message and controls
+            document.getElementById('resultMessage').textContent = '';
+            document.getElementById('postGameControls').classList.remove('show');
+            
+            // Reload the game
+            loadGame();
+        }
+
+        // Initialize drag and drop when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Game will be initialized when start button is clicked
+        });
+    </script>
+</body>
+</html>
