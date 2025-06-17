@@ -40,7 +40,7 @@
     <section class="login-section">
         <div class="login-form-container">
             <h2 class="login-title">Registracija</h2>
-            <form>
+            <form id="register-form">
                 <div class="form-group">
                     <label class="form-label">Korisničko ime</label>
                     <input type="text" class="form-input" placeholder="Unesite korisničko ime">
@@ -53,6 +53,7 @@
                     <label class="form-label">Potvrda lozinke</label>
                     <input type="password" class="form-input" placeholder="Unesite ponovno lozinku">
                 </div>
+                <div id="register-error" class="form-error"></div>
                 <button type="submit" class="login-button">Registracija</button>
                 <p class="signup-text">Imate račun? <a href="login.html" class="signup-link">Prijavite se ovdje</a>.</p>
             </form>
@@ -122,5 +123,14 @@
     
         <div class="footer-bottom">2025 Artitudo</div>
     </footer>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <!-- Your config -->
+    <script src="scripts/firebase-config.js"></script>
+    <script src="scripts/auth.js"></script>
 </body>
 </html>

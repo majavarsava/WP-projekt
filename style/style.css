@@ -483,6 +483,13 @@ body {
     font-size: 0.9rem;
 }
 
+.form-error {
+    color: #d32f2f;
+    margin-bottom: 1rem;
+    min-height: 1.2em;
+    font-size: 1em;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .intro {

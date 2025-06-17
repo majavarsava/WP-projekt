@@ -16,11 +16,12 @@
         </div>
         <nav class="nav-icons">
             <a href="elements.html" class="nav-icon"><img src="icons/search.svg" alt="Search icon"></a>
-            <a href="folder-usavrseni.html" class="nav-icon"><img src="icons/checkmark.svg" alt="Checkmark icon"></a>
-            <a href="folder-favoriti.html" class="nav-icon"><img src="icons/heart.svg" alt="Heart icon"></a>
-            <a href="folder-zelje.html" class="nav-icon"><img src="icons/star.svg" alt="Star icon"></a>
+            <a href="folder-usavrseni.html" class="nav-icon auth-required"><img src="icons/checkmark.svg" alt="Checkmark icon"></a>
+            <a href="folder-favoriti.html" class="nav-icon auth-required"><img src="icons/heart.svg" alt="Heart icon"></a>
+            <a href="folder-zelje.html" class="nav-icon auth-required"><img src="icons/star.svg" alt="Star icon"></a>
             <a href="game.html" class="nav-icon"><img src="icons/Game Controller.png" alt="Game icon"></a>
-            <a href="profile.html" class="nav-icon"><img src="icons/account.svg" alt="Account icon"></a>
+            <a href="profile.html" class="nav-icon auth-required"><img src="icons/account.svg" alt="Account icon"></a>
+            <a href="login.html" class="nav-icon"><img src="icons/login.png" alt="Login account"></a>
             <a href="index.html" class="nav-icon"><img src="icons/home.svg" alt="Home icon"></a>
         </nav>
     </header>
@@ -40,7 +41,7 @@
     <section class="login-section">
         <div class="login-form-container">
             <h2 class="login-title">Prijava</h2>
-            <form>
+            <form id="login-form">
                 <div class="form-group">
                     <label class="form-label">Korisničko ime</label>
                     <input type="text" class="form-input" placeholder="Unesite korisničko ime">
@@ -49,6 +50,7 @@
                     <label class="form-label">Lozinka</label>
                     <input type="password" class="form-input" placeholder="Unesite lozinku">
                 </div>
+                <div id="login-error" class="form-error"></div>
                 <button type="submit" class="login-button">Prijava</button>
                 <p class="signup-text">Nemate račun? <a href="register.html" class="signup-link">Registrirajte se ovdje</a>.</p>
             </form>
@@ -118,5 +120,14 @@
     
         <div class="footer-bottom">2025 Artitudo</div>
     </footer>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <!-- Your config -->
+    <script src="scripts/firebase-config.js"></script>
+    <script src="scripts/auth.js"></script>
 </body>
 </html>
