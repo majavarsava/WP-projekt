@@ -16,11 +16,12 @@
         </div>
         <nav class="nav-icons">
             <a href="elements.html" class="nav-icon"><img src="icons/search.svg" alt="Search icon"></a>
-            <a href="folder-usavrseni.html" class="nav-icon"><img src="icons/checkmark.svg" alt="Checkmark icon"></a>
-            <a href="folder-favoriti.html" class="nav-icon"><img src="icons/heart.svg" alt="Heart icon"></a>
-            <a href="folder-zelje.html" class="nav-icon"><img src="icons/star.svg" alt="Star icon"></a>
+            <a href="folder-usavrseni.html" class="nav-icon auth-required"><img src="icons/checkmark.svg" alt="Checkmark icon"></a>
+            <a href="folder-favoriti.html" class="nav-icon auth-required"><img src="icons/heart.svg" alt="Heart icon"></a>
+            <a href="folder-zelje.html" class="nav-icon auth-required"><img src="icons/star.svg" alt="Star icon"></a>
             <a href="game.html" class="nav-icon"><img src="icons/Game Controller.png" alt="Game icon"></a>
-            <a href="profile.html" class="nav-icon"><img src="icons/account.svg" alt="Account icon"></a>
+            <a href="profile.html" class="nav-icon auth-required"><img src="icons/account.svg" alt="Account icon"></a>
+            <a href="login.html" class="nav-icon guest-only"><img src="icons/login.png" alt="Login"></a>
             <a href="index.html" class="nav-icon"><img src="icons/home.svg" alt="Home icon"></a>
         </nav>
     </header>
@@ -180,4 +181,10 @@
         setInterval(autoSlide, 3000); // change slide every 3 seconds
     </script>
 </body>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="scripts/firebase-config.js"></script>
+<script src="scripts/auth.js"></script>
 </html>

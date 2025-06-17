@@ -1,204 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artitudo aerial arts</title>
-    <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/scattered-images.css">
-</head>
-<body>
-    <header class="header">
-        <div class="logo-section" onclick="location.href='index.html'">
-            <div class="logo"><img src="images/logo-mini.png" alt="Logo Mini" class="logo-mini"></div>
-            <div class="studio-name"><img src="images/logo-text.PNG" alt="Logo Text" class="logo-text"></div>
-        </div>
-        <nav class="nav-icons">
-            <a href="elements.html" class="nav-icon"><img src="icons/search.svg" alt="Search icon"></a>
-            <a href="folder-usavrseni.html" class="nav-icon"><img src="icons/checkmark.svg" alt="Checkmark icon"></a>
-            <a href="folder-favoriti.html" class="nav-icon"><img src="icons/heart.svg" alt="Heart icon"></a>
-            <a href="folder-zelje.html" class="nav-icon"><img src="icons/star.svg" alt="Star icon"></a>
-            <a href="game.html" class="nav-icon"><img src="icons/Game Controller.png" alt="Game icon"></a>
-            <a href="profile.html" class="nav-icon"><img src="icons/account.svg" alt="Account icon"></a>
-            <a href="index.html" class="nav-icon"><img src="icons/home.svg" alt="Home icon"></a>
-        </nav>
-    </header>
-
-    <section class="intro">
-        <div class="hero-logo">
-            <div class="full-logo"><img src="images/logo-big.png" alt="Logo" class="logo-big"></div>
-        </div>
-        <div class="hero-content">
-            <div class="content-box">
-                <p class="smaller-text">Artitudo tim vam donosi</p>
-                <h1 class="big-text">Elementi koje učimo na treninzima su sada online!</h1>
-                <p class="small-text">
-                    Napravite svoj profil, pratite koje elemente ste usavršili, koji su vam favoriti, ali i one koji još iščekuju vaš pokušaj!
-                </p>
-                <a href="register.html"><button class="cta-button">Registriraj se!</button></a>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Artitudo aerial arts</title>
+        <link rel="stylesheet" href="style/style.css">
+        <link rel="stylesheet" href="style/scattered-images.css">
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo-section" onclick="location.href='index.html'">
+                <div class="logo"><img src="images/logo-mini.png" alt="Logo Mini" class="logo-mini"></div>
+                <div class="studio-name"><img src="images/logo-text.PNG" alt="Logo Text" class="logo-text"></div>
             </div>
-        </div>
-    </section>
+            <nav class="nav-icons">
+                <a href="elements.html" class="nav-icon"><img src="icons/search.svg" alt="Search icon"></a>
+                <a href="folder-usavrseni.html" class="nav-icon auth-required"><img src="icons/checkmark.svg" alt="Checkmark icon"></a>
+                <a href="folder-favoriti.html" class="nav-icon auth-required"><img src="icons/heart.svg" alt="Heart icon"></a>
+                <a href="folder-zelje.html" class="nav-icon auth-required"><img src="icons/star.svg" alt="Star icon"></a>
+                <a href="game.html" class="nav-icon"><img src="icons/Game Controller.png" alt="Game icon"></a>
+                <a href="profile.html" class="nav-icon auth-required"><img src="icons/account.svg" alt="Account icon"></a>
+                <a href="login.html" class="nav-icon guest-only"><img src="icons/login.png" alt="Login"></a>
+                <a href="index.html" class="nav-icon"><img src="icons/home.svg" alt="Home icon"></a>
+            </nav>
+        </header>
 
-     <!-- galerija sa sliderom -->
-     <section class="gallery-slider-section">
-        <div class="slider-text-content">
-            <h2 class="slider-title">XY+ elemenata koje možete naučiti kod nas...</h2>
-            <a href="login.html"><button class="slider-button">Prijavi se</button></a>
-        </div>
+        <section class="intro">
+            <div class="hero-logo">
+                <div class="full-logo"><img src="images/logo-big.png" alt="Logo" class="logo-big"></div>
+            </div>
+            <div class="hero-content">
+                <div class="content-box">
+                    <p class="smaller-text">Artitudo tim vam donosi</p>
+                    <h1 class="big-text">Elementi koje učimo na treninzima su sada online!</h1>
+                    <p class="small-text">
+                        Napravite svoj profil, pratite koje elemente ste usavršili, koji su vam favoriti, ali i one koji još iščekuju vaš pokušaj!
+                    </p>
+                    <a href="register.html"><button class="cta-button guest-only">Registriraj se!</button></a>
+                    <a href="profile.html"><button class="cta-button auth-required" style="display: none;">Moj profil</button></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- galerija sa sliderom -->
+        <section class="gallery-slider-section">
+            <div class="slider-text-content">
+                <h2 class="slider-title">XY+ elemenata koje možete naučiti kod nas...</h2>
+                <a href="login.html"><button class="slider-button guest-only">Prijavi se</button></a>
+            </div>
+            
+            <div class="slider-right-content">
+                <div class="left-image-container">
+                    <div class="left-slider-container" id="leftSliderContainer">
+                        <div class="left-slide">Advanced Silks Training</div>
+                        <div class="left-slide">Lyra Fundamentals</div>
+                        <div class="left-slide">Trapeze Mastery</div>
+                        <div class="left-slide">Straps Excellence</div>
+                    </div>
+                </div>
+                
+                <!-- Right image with controls -->
+                <div class="right-image-section">
+                    <div class="right-image-container">
+                        <div class="right-slider-container" id="rightSliderContainer">
+                            <div class="right-slide">Studio Interior</div>
+                            <div class="right-slide">Class Session</div>
+                            <div class="right-slide">Performance</div>
+                            <div class="right-slide">Workshop</div>
+                        </div>
+                    </div>
+                
+                    <div class="slider-dots">
+                        <div class="dot active" onclick="goToSlide(0)"></div>
+                        <div class="dot" onclick="goToSlide(1)"></div>
+                        <div class="dot" onclick="goToSlide(2)"></div>
+                        <div class="dot" onclick="goToSlide(3)"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- najvise favoritirani elementi -->
+        <section class="content-section">
+            <h2 class="section-title">Trenutno neki od najdražih elemenata naših članova</h2>
+            <div class="gallery">
+                <div class="gallery-item">Studio Space</div>
+                <div class="gallery-item">Group Classes</div>
+                <div class="gallery-item">Private Sessions</div>
+                <div class="gallery-item">Community Events</div>
+            </div>
+        </section>
+
+        <!-- x elementi u artitudu -->
+        <section class="content-section">
+            <h2 class="section-title">Beginner elementi koje učimo u Artitudu</h2>
+            <div class="gallery">
+                <div class="gallery-item">Beginner Classes</div>
+                <div class="gallery-item">Advanced Training</div>
+                <div class="gallery-item">Flexibility Focus</div>
+                <div class="gallery-item">Strength Building</div>
+                <div class="gallery-item">Choreography</div>
+                <div class="gallery-item">Competition Prep</div>
+                <div class="gallery-item">Open Practice</div>
+                <div class="gallery-item">Workshops</div>
+            </div>
+            <a href="elements.html"><button class="section-button">Prikaži sve</button></a>
+        </section>
+
+
+        <!-- rastrkane slikice -->
+        <section class="gallery-masonry-section">
+            <div class="masonry-container">
+                <div class="masonry-background"></div>
+                
+                <div class="masonry-image img-1"></div>
+                <div class="masonry-image img-2"></div>
+                <div class="masonry-image img-3"></div>
+                <div class="masonry-image img-4"></div>
+                <div class="masonry-image img-5"></div>
+                <div class="masonry-image img-6"></div>
+                <div class="masonry-image img-7"></div>
+                <div class="masonry-image img-8"></div>
+                <div class="masonry-image img-9"></div>
+                <div class="masonry-image img-10"></div>
+                <div class="masonry-image img-11"></div>
+                
+                <div class="masonry-text-overlay">
+                    <span class="masonry-subtitle">Pridruži nam se i postani</span>
+                    <span class="masonry-title">#Artitudica</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="footer-title">Artitudo aerial arts</h3>
+                    <p class="footer-info">
+                        Pridružite se našoj zajednici i otkrijte svoju strast za pokretom. 
+                        Nudimo satove za sve uzraste i razine iskustva.
+                    </p>
+                </div>
+                <div class="footer-column"></div>
+                <div class="footer-column">
+                    <div class="footer-links">
+                        <div class="links-column">
+                            <a href="#" class="footer-link">Link</a>
+                            <a href="#" class="footer-link">Link</a>
+                            <a href="#" class="footer-link">Link</a>
+                            <a href="#" class="footer-link">Link</a>
+                        </div>
+                        <div class="links-column">
+                            <a href="#" class="footer-link">Link</a>
+                            <a href="#" class="footer-link">Galerija</a>
+                            <a href="#" class="footer-link">Link</a>
+                            <a href="#" class="footer-link">Link</a>
+                        </div>
+                    </div>
+                </div>
         
-        <div class="slider-right-content">
-            <div class="left-image-container">
-                <div class="left-slider-container" id="leftSliderContainer">
-                    <div class="left-slide">Advanced Silks Training</div>
-                    <div class="left-slide">Lyra Fundamentals</div>
-                    <div class="left-slide">Trapeze Mastery</div>
-                    <div class="left-slide">Straps Excellence</div>
+                <div class="footer-column">
+                    <h4 class="contact-title">Imate pitanja?</h4>
+                    <form class="contact-form">
+                        <input type="text" class="contact-input" placeholder="Vaše pitanje..." required>
+                        <input type="email" class="contact-input" placeholder="Vaš email..." required>
+                        <button type="submit" class="contact-button">Pošalji</button>
+                    </form>
                 </div>
             </div>
-            
-            <!-- Right image with controls -->
-            <div class="right-image-section">
-                <div class="right-image-container">
-                    <div class="right-slider-container" id="rightSliderContainer">
-                        <div class="right-slide">Studio Interior</div>
-                        <div class="right-slide">Class Session</div>
-                        <div class="right-slide">Performance</div>
-                        <div class="right-slide">Workshop</div>
-                    </div>
-                </div>
-            
-                <div class="slider-dots">
-                    <div class="dot active" onclick="goToSlide(0)"></div>
-                    <div class="dot" onclick="goToSlide(1)"></div>
-                    <div class="dot" onclick="goToSlide(2)"></div>
-                    <div class="dot" onclick="goToSlide(3)"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+        
+            <div class="footer-bottom">2025 Artitudo</div>
+        </footer>
 
-    <!-- najvise favoritirani elementi -->
-    <section class="content-section">
-        <h2 class="section-title">Trenutno neki od najdražih elemenata naših članova</h2>
-        <div class="gallery">
-            <div class="gallery-item">Studio Space</div>
-            <div class="gallery-item">Group Classes</div>
-            <div class="gallery-item">Private Sessions</div>
-            <div class="gallery-item">Community Events</div>
-        </div>
-    </section>
+        <script>
+            let currentSlide = 0;
+            const totalSlides = 4;
 
-    <!-- x elementi u artitudu -->
-    <section class="content-section">
-        <h2 class="section-title">Beginner elementi koje učimo u Artitudu</h2>
-        <div class="gallery">
-            <div class="gallery-item">Beginner Classes</div>
-            <div class="gallery-item">Advanced Training</div>
-            <div class="gallery-item">Flexibility Focus</div>
-            <div class="gallery-item">Strength Building</div>
-            <div class="gallery-item">Choreography</div>
-            <div class="gallery-item">Competition Prep</div>
-            <div class="gallery-item">Open Practice</div>
-            <div class="gallery-item">Workshops</div>
-        </div>
-        <a href="elements.html"><button class="section-button">Prikaži sve</button></a>
-    </section>
+            function goToSlide(slideIndex) {
+                const leftContainer = document.getElementById('leftSliderContainer');
+                const rightContainer = document.getElementById('rightSliderContainer');
+                const dots = document.querySelectorAll('.dot');   
+                // Update current slide
+                currentSlide = slideIndex;      
+                // Move slider
+                const translateX = -slideIndex * (25-0.016); // adjusting for the width of the white gap
+                leftContainer.style.transform = `translateX(${translateX}%)`;
+                rightContainer.style.transform = `translateX(${translateX}%)`;        
+                // Update dots
+                dots.forEach((dot, index) => {
+                    if (index === slideIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
 
+            function autoSlide() {
+                const nextSlide = (currentSlide + 1) % totalSlides;
+                goToSlide(nextSlide);
+            }
+            setInterval(autoSlide, 3000); // change slide every 3 seconds
+        </script>
+    </body>
 
-    <!-- rastrkane slikice -->
-    <section class="gallery-masonry-section">
-        <div class="masonry-container">
-            <div class="masonry-background"></div>
-            
-            <div class="masonry-image img-1"></div>
-            <div class="masonry-image img-2"></div>
-            <div class="masonry-image img-3"></div>
-            <div class="masonry-image img-4"></div>
-            <div class="masonry-image img-5"></div>
-            <div class="masonry-image img-6"></div>
-            <div class="masonry-image img-7"></div>
-            <div class="masonry-image img-8"></div>
-            <div class="masonry-image img-9"></div>
-            <div class="masonry-image img-10"></div>
-            <div class="masonry-image img-11"></div>
-            
-            <div class="masonry-text-overlay">
-                <span class="masonry-subtitle">Pridruži nam se i postani</span>
-                <span class="masonry-title">#Artitudica</span>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3 class="footer-title">Artitudo aerial arts</h3>
-                <p class="footer-info">
-                    Pridružite se našoj zajednici i otkrijte svoju strast za pokretom. 
-                    Nudimo satove za sve uzraste i razine iskustva.
-                </p>
-            </div>
-            <div class="footer-column"></div>
-            <div class="footer-column">
-                <div class="footer-links">
-                    <div class="links-column">
-                        <a href="#" class="footer-link">Link</a>
-                        <a href="#" class="footer-link">Link</a>
-                        <a href="#" class="footer-link">Link</a>
-                        <a href="#" class="footer-link">Link</a>
-                    </div>
-                    <div class="links-column">
-                        <a href="#" class="footer-link">Link</a>
-                        <a href="#" class="footer-link">Galerija</a>
-                        <a href="#" class="footer-link">Link</a>
-                        <a href="#" class="footer-link">Link</a>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="footer-column">
-                <h4 class="contact-title">Imate pitanja?</h4>
-                <form class="contact-form">
-                    <input type="text" class="contact-input" placeholder="Vaše pitanje..." required>
-                    <input type="email" class="contact-input" placeholder="Vaš email..." required>
-                    <button type="submit" class="contact-button">Pošalji</button>
-                </form>
-            </div>
-        </div>
-    
-        <div class="footer-bottom">2025 Artitudo</div>
-    </footer>
-
-    <script>
-        let currentSlide = 0;
-        const totalSlides = 4;
-
-        function goToSlide(slideIndex) {
-            const leftContainer = document.getElementById('leftSliderContainer');
-            const rightContainer = document.getElementById('rightSliderContainer');
-            const dots = document.querySelectorAll('.dot');   
-            // Update current slide
-            currentSlide = slideIndex;      
-            // Move slider
-            const translateX = -slideIndex * (25-0.016); // adjusting for the width of the white gap
-            leftContainer.style.transform = `translateX(${translateX}%)`;
-            rightContainer.style.transform = `translateX(${translateX}%)`;        
-            // Update dots
-            dots.forEach((dot, index) => {
-                if (index === slideIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
-        function autoSlide() {
-            const nextSlide = (currentSlide + 1) % totalSlides;
-            goToSlide(nextSlide);
-        }
-        setInterval(autoSlide, 3000); // change slide every 3 seconds
-    </script>
-</body>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="scripts/firebase-config.js"></script>
+    <script src="scripts/auth.js"></script>
 </html>
