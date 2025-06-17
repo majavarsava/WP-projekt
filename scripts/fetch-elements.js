@@ -25,10 +25,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Render elements based on current search/filter
     async function renderElements() {
         let searchTerm = searchInput.value.trim().toLowerCase();
-        let activeLevel = document.querySelector('.filter-button.active')?.dataset.level || "";
+        let activeLevel = document.querySelector('.filter-button.active')?.dataset.level || "All";
 
         let filtered = allElements.filter(el => {
-            let matchesLevel = !activeLevel || (el.level && el.level === activeLevel);
+            let matchesLevel = (activeLevel === "All") || (el.level && el.level === activeLevel);
             let matchesSearch = !searchTerm || (el.name && el.name.toLowerCase().includes(searchTerm));
             return matchesLevel && matchesSearch;
         });
@@ -63,6 +63,16 @@ document.addEventListener('DOMContentLoaded', async function() {
             elementsList.appendChild(link);
         }
     }
+
+    const resetBtn = document.getElementById('reset-filters');
+    resetBtn.addEventListener('click', function() {
+        // Clear search
+        searchInput.value = "";
+        // Set "All" as active
+        filterButtons.forEach(b => b.classList.remove('active'));
+        document.querySelector('.filter-button[data-level="All"]').classList.add('active');
+        renderElements();
+    });
 
     // Search functionality
     searchBtn.addEventListener('click', renderElements);

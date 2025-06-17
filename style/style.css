@@ -689,6 +689,11 @@ body {
     background: #bfbffa;
 }
 
+.filter-button.active {
+    background: #bfbffa;
+    color: #222;
+}
+
 .filter-text {
     font-size: 1rem;
     padding-left: 0.5rem;
