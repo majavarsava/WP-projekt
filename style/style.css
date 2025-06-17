@@ -202,10 +202,12 @@ body {
     transition: background-color 0.3s ease;
 }
 
+/* Existing hover effect */
 .gallery-item:hover, .elements-item:hover {
     transform: scale(1.05);
     z-index: 10;
-    background: #bfbffa ;
+    background: #bfbffa;
+    box-shadow: 0 0 20px rgba(191, 191, 250, 0.8), 0 0 40px rgba(191, 191, 250, 0.6), 0 0 60px rgba(191, 191, 250, 0.4);
 }
 
 .elements {
@@ -216,10 +218,10 @@ body {
     flex-wrap: wrap;
 }
 
-.elements-item{
+.elements-item {
     width: 18rem;
     height: 24rem;
-    background: #a5a5a5;
+    background: #a5a5a57f;
     border-radius: 1rem;
     display: flex;
     align-items: center;
@@ -228,7 +230,58 @@ body {
     font-weight: bold;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    overflow: hidden; /* Prevents image overflow */
+}
+
+/* New styles for better image handling */
+.element-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+}
+
+.element-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.7rem;
+    background: rgba(255, 255, 255, 0.1); /* Subtle background for images */
+}
+
+.element-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures consistent aspect ratio */
+    object-position: center; /* Centers the image */
+    border-radius: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+/* Optional: Add subtle zoom to image on hover */
+.elements-item:hover .element-image {
+    transform: scale(1.02);
+}
+
+.element-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0.8rem 0.5rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    line-height: 1.2;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+    border-radius: 0 0 0.7rem 0.7rem;
+    /* Ensure text doesn't overflow */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .section-button {

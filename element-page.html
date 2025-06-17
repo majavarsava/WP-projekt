@@ -41,31 +41,27 @@
     <section class="element-detail-section">
         <div class="element-detail-container">
             <div class="element-image-column">
-                <div class="element-image">
-                    <span>Element Slika</span>
+                <div class="element-image" id="element-image">
+                    <img src="..." alt="..."/>
                 </div>
             </div>
             <div class="element-info-column">
                 <div class="element-info-card">
-                    <h3 class="element-name">Shoulder Mount</h3>
+                    <h3 class="element-name" id="element-name"></h3>
                     <div class="element-level">
-                        <span class="level-badge">Intermediate</span>
+                        <span class="level-badge" id="element-level"></span>
                     </div>
-                    <p class="element-description">
-                        Shoulder mount je jedan od osnovnih elemenata u aerial arts disciplinama. 
-                        Ovaj pokret zahtijeva snagu ramena i pravilnu tehniku za sigurno izvođenje. 
-                        Preporučuje se redovito vježbanje pod nadzorom instruktora.
-                    </p>
+                    <p class="element-description" id="element-description"></p>
                     <div class="element-divider"></div>
-                    <div class="folder-icons">
+                    <div class="folder-icons auth-required">
                         <div class="folder-icon" title="Usavršeni elementi"><img src="icons/checkmark.svg" alt="Checkmark icon"></div>
                         <div class="folder-icon" title="Favoriti"><img src="icons/heart.svg" alt="Heart icon"></div>
                         <div class="folder-icon" title="Želje"><img src="icons/star.svg" alt="Star icon"></div>
                     </div>
-                    <div class="element-divider"></div>
-                    <div class="element-actions">
-                        <button class="action-button">Uredi</button>
-                        <button class="action-button delete-button">Obriši</button>
+                    <div class="element-divider auth-required"></div>
+                    <div class="element-actions admin-only" style="display: none;">
+                        <button class="action-button admin-only" style="display: none;">Uredi</button>
+                        <button class="action-button delete-button admin-only" style="display: none;">Obriši</button>
                     </div>
                 </div>
             </div>
@@ -76,7 +72,7 @@
      <section class="gallery-slider-section">
         <div class="slider-text-content">
             <h2 class="slider-title">XY+ elemenata koje možete naučiti kod nas...</h2>
-            <a href="login.html"><button class="slider-button">Prijavi se</button></a>
+            <a href="login.html"><button class="slider-button guest-only">Prijavi se</button></a>
         </div>
         
         <div class="slider-right-content">
@@ -187,4 +183,5 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="scripts/firebase-config.js"></script>
 <script src="scripts/auth.js"></script>
+<script src="scripts/fetch-elements.js"></script>
 </html>

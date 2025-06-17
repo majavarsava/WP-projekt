@@ -5,6 +5,10 @@ const protectedPages = [
     "folder-usavrseni.html"
 ];
 
+const adminPages = [
+    "add-element.html"
+];
+
 // Redirect to login if not authenticated (for profile.html)
 if (protectedPages.some(page => window.location.pathname.endsWith(page))) {
     firebase.auth().onAuthStateChanged(function(user) {
@@ -15,7 +19,7 @@ if (protectedPages.some(page => window.location.pathname.endsWith(page))) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(async function(user) {
         const authIcons = document.querySelectorAll('.auth-required');
         authIcons.forEach(icon => {
             icon.style.display = user ? '' : 'none';
@@ -25,6 +29,20 @@ document.addEventListener('DOMContentLoaded', function() {
         guestIcons.forEach(icon => {
             icon.style.display = user ? 'none' : '';
         });
+
+         // Show/hide for admins
+        const adminElements = document.querySelectorAll('.admin-only');
+        if (user) {
+            const db = firebase.firestore();
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            if (userDoc.exists && userDoc.data().isAdmin) {
+                adminElements.forEach(el => el.style.display = '');
+            } else {
+                adminElements.forEach(el => el.style.display = 'none');
+            }
+        } else {
+            adminElements.forEach(el => el.style.display = 'none');
+        }
     });
 });
 

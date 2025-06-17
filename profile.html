@@ -40,11 +40,11 @@
 
     <section class="profile-section">
         <div class="profile-card">
-            <h2 class="profile-username">Korisničko ime</h2>
+            <h2 class="profile-username" id="profile-username">Korisničko ime</h2>
             <div class="profile-folders">
-                <div class="folder-item">Favoriti: XY</div>
-                <div class="folder-item">Usavršeni elementi: XY</div>
-                <div class="folder-item">Želje: XY</div>
+                <div class="folder-item">Favoriti: <span id="favorites-count"></span></div>
+                <div class="folder-item">Usavršeni elementi: <span id="mastered-count"></span></div>
+                <div class="folder-item">Želje: <span id="wishlist-count"></span></div>
             </div>
             <div class="profile-divider"></div>
             <div class="folder-icons">
@@ -55,7 +55,7 @@
             <div class="profile-divider"></div>
             <div class="profile-buttons">
                 <a href="#" id="logout-btn"><button class="profile-button">Odjava</button></a>
-                <a href="add-element.html"><button class="profile-button">Dodaj element</button></a>
+                <a href="add-element.html" id="add-element-btn" style="display: none;"><button class="profile-button">Dodaj element</button></a>
             </div>
         </div>
     </section>
@@ -116,5 +116,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="scripts/firebase-config.js"></script>
     <script src="scripts/auth.js"></script>
+    <script src="scripts/fetch-data.js"></script>
 </body>
 </html>
