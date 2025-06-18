@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (!elementId) return;
 
     const db = firebase.firestore();
+    const storage = firebase.storage();
     const doc = await db.collection('elements').doc(elementId).get();
     if (!doc.exists) return;
 
@@ -136,6 +137,59 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         // Set description
         document.getElementById('element-description').textContent = data.description || "";
+        
+        // --- FILL ICONS IF IN USER'S FOLDERS ---
+        firebase.auth().onAuthStateChanged(async function(user) {
+            if (!user) return;
+            const userRef = await db.collection('users').doc(user.uid);
+            const userDoc = await userRef.get();
+            const folders = userDoc.data()?.folders || {};
+
+            // Helper to update folder and icon
+            async function toggleFolder(folderKey, iconEl, filledSrc, emptySrc) {
+                let arr = folders[folderKey] || [];
+                const idx = arr.indexOf(elementId);
+                if (idx === -1) {
+                    arr.push(elementId);
+                    iconEl.querySelector('img').src = filledSrc;
+                } else {
+                    arr.splice(idx, 1);
+                    iconEl.querySelector('img').src = emptySrc;
+                }
+                folders[folderKey] = arr;
+                await userRef.update({ folders });
+            }
+            
+            // Heart (favorites)
+            const heartDiv = document.querySelector('.folder-icon[title="Favoriti"]');
+            if (heartDiv) {
+                const heartIcon = heartDiv.querySelector('img');
+                heartIcon.src = (folders.favorites && folders.favorites.includes(elementId)) ? "icons/heart-filled.svg" : "icons/heart.svg";
+                heartDiv.onclick = async () => {
+                    await toggleFolder("favorites", heartDiv, "icons/heart-filled.svg", "icons/heart.svg");
+                };
+            }
+
+            // Star (wishlist)
+            const starDiv = document.querySelector('.folder-icon[title="Želje"]');
+            if (starDiv) {
+                const starIcon = starDiv.querySelector('img');
+                starIcon.src = (folders.wishlist && folders.wishlist.includes(elementId)) ? "icons/star-filled.svg" : "icons/star.svg";
+                starDiv.onclick = async () => {
+                    await toggleFolder("wishlist", starDiv, "icons/star-filled.svg", "icons/star.svg");
+                };
+            }
+
+            // Checkmark (mastered)
+            const checkDiv = document.querySelector('.folder-icon[title="Usavršeni elementi"]');
+            if (checkDiv) {
+                const checkIcon = checkDiv.querySelector('img');
+                checkIcon.src = (folders.mastered && folders.mastered.includes(elementId)) ? "icons/checkmark-filled.svg" : "icons/checkmark.svg";
+                checkDiv.onclick = async () => {
+                    await toggleFolder("mastered", checkDiv, "icons/checkmark-filled.svg", "icons/checkmark.svg");
+                };
+            }
+        });
     } catch (error) {
         console.error('Error loading element:', error);
     }
