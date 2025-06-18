@@ -72,7 +72,7 @@ async function cleanupUserFolders(userId) {
 
 async function showFavoriteElements(userId) {
     const db = firebase.firestore();
-    const gallery = document.querySelector('.gallery');
+    const gallery = document.querySelector('.elements');
     if (!gallery) return;
 
     // Get user's favorites
