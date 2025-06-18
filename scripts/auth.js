@@ -90,7 +90,6 @@ if (loginForm) {
         const email = username.toLowerCase() + '@artitudo.app';
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                alert('Prijava uspješna!');
                 window.location.href = "index.html";
             })
             .catch((error) => {

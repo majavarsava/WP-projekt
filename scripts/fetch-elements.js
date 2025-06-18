@@ -193,6 +193,33 @@ document.addEventListener('DOMContentLoaded', async function() {
     } catch (error) {
         console.error('Error loading element:', error);
     }
+    const deleteBtn = document.getElementById('delete-button');
+    if (deleteBtn) {
+        firebase.auth().onAuthStateChanged(async function(user) {
+            if (!user) {
+                deleteBtn.style.display = 'none';
+                return;
+            }
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            if (userDoc.exists && userDoc.data().isAdmin) {
+                deleteBtn.style.display = '';
+                deleteBtn.onclick = async function() {
+                    if (confirm("Jeste li sigurni da želite izbrisati ovaj element?")) {
+                        try {
+                            await db.collection('elements').doc(elementId).delete();
+                            alert("Element uspješno izbrisan.");
+                            window.location.href = "elements.html";
+                        } catch (error) {
+                            alert("Došlo je do greške pri brisanju elementa." + error.message);
+                        }
+                    }
+                };
+            } else {
+                deleteBtn.style.display = 'none';
+            }
+        });
+    }
+
 });
 
 document.addEventListener('DOMContentLoaded', async function() {

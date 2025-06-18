@@ -110,7 +110,7 @@ async function showFavoriteElements(userId) {
         el.innerHTML = `
             <div class="element-content">
                 <div class="element-image-container">
-                    <img src="${imageUrl}" alt="${data.name}" class="element-image" loading="lazy">
+                    <img src="${imageUrl}" alt="${data.name}" class="element-favorite" loading="lazy">
                 </div>
                 <div class="element-title">
                     ${data.name || 'Unnamed Element'}

@@ -102,6 +102,15 @@
     position: relative;
 }
 
+.element-image-container .element-favorite {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0.7rem;
+    transition: tranfsform 0.3s ease;
+}
+
 .element-image img {
     width: 100%;
     height: 100%;
