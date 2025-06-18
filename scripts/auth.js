@@ -17,6 +17,14 @@ if (protectedPages.some(page => window.location.pathname.endsWith(page))) {
         }
     });
 }
+if (adminPages.some(page => window.location.pathname.endsWith(page))) {
+    firebase.auth().onAuthStateChanged(async function(user) {
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        if (!user || !userDoc.data().isAdmin) {
+            window.location.href = "index.html";
+        }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     firebase.auth().onAuthStateChanged(async function(user) {

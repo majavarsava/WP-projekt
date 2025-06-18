@@ -1,0 +1,250 @@
+let gameData = {
+    elements: [],
+    distractors: []
+};
+
+let gameState = {
+    placedItems: {},
+    gameCompleted: false
+};
+
+async function fetchRandomElements(count = 3) {
+    const db = firebase.firestore();
+    const snapshot = await db.collection('elements').get();
+    const allElements = [];
+    snapshot.forEach(doc => {
+        const data = doc.data();
+        allElements.push({
+            name: data.name,
+            image: data.image && data.image.startsWith('http') ? data.image : "images/logo-big.png",
+            id: doc.id
+        });
+    });
+
+    // Shuffle and pick random elements
+    allElements.sort(() => Math.random() - 0.5);
+    const selected = allElements.slice(0, count);
+
+    // Prepare distractors (names not in selected)
+    const distractors = allElements
+        .filter(el => !selected.some(sel => sel.name === el.name))
+        .map(el => el.name);
+
+    // Shuffle and pick up to 3 distractors
+    distractors.sort(() => Math.random() - 0.5);
+    gameData.elements = selected;
+    gameData.distractors = distractors.slice(0, 3);
+}
+
+async function startGame() {
+    document.querySelector('.game-explanation').style.display = 'none';
+    document.getElementById('gameArea').classList.add('active');
+    await fetchRandomElements(3);
+    loadGame();
+}
+
+function loadGame() {
+    loadImages();
+    loadNames();
+    setupDragAndDrop();
+}
+
+function loadImages() {
+    const container = document.getElementById('imagesContainer');
+    container.innerHTML = '';
+    
+    gameData.elements.forEach(element => {
+        const imageBox = document.createElement('div');
+        imageBox.className = 'image-box';
+        imageBox.innerHTML = `
+        <img src="${element.image}" alt="${element.name}" class="element-image" data-element="${element.id}">
+        <div class="drop-zone" data-target="${element.id}"></div>
+        `;
+        container.appendChild(imageBox);
+    });
+}
+
+function loadNames() {
+    const container = document.getElementById('namesContainer');
+    container.innerHTML = '';
+    
+    // Combine correct names with distractors
+    const allNames = [...gameData.elements.map(e => e.name), ...gameData.distractors];
+    
+    // Shuffle the names
+    allNames.sort(() => Math.random() - 0.5);
+    
+    allNames.forEach(name => {
+        const nameTag = document.createElement('div');
+        nameTag.className = 'name-tag';
+        nameTag.textContent = name;
+        nameTag.draggable = true;
+        nameTag.dataset.name = name;
+        container.appendChild(nameTag);
+    });
+}
+
+function setupDragAndDrop() {
+    // Setup drag events for name tags
+    document.querySelectorAll('.name-tag').forEach(tag => {
+        tag.addEventListener('dragstart', handleDragStart);
+        tag.addEventListener('dragend', handleDragEnd);
+    });
+    
+    // Setup drop events for drop zones
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+        zone.addEventListener('dragover', handleDragOver);
+        zone.addEventListener('dragenter', handleDragEnter);
+        zone.addEventListener('dragleave', handleDragLeave);
+        zone.addEventListener('drop', handleDrop);
+    });
+    
+    // Setup click events for images (disabled initially)
+    document.querySelectorAll('.element-image').forEach(img => {
+        img.addEventListener('click', handleImageClick);
+    });
+}
+
+function handleDragStart(e) {
+    e.dataTransfer.setData('text/plain', e.target.dataset.name);
+    e.target.classList.add('dragging');
+}
+
+function handleDragEnd(e) {
+    e.target.classList.remove('dragging');
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+}
+
+function handleDragEnter(e) {
+    e.preventDefault();
+    e.target.classList.add('drag-over');
+}
+
+function handleDragLeave(e) {
+    e.target.classList.remove('drag-over');
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    e.target.classList.remove('drag-over');
+    
+    const draggedName = e.dataTransfer.getData('text/plain');
+    const targetId = e.target.dataset.target;
+    
+    // If there was already a name in this drop zone, return it to the names container
+    const previousName = e.target.textContent.trim();
+    if (previousName && previousName !== draggedName) {
+        const namesContainer = document.getElementById('namesContainer');
+        const nameTag = document.createElement('div');
+        nameTag.className = 'name-tag';
+        nameTag.textContent = previousName;
+        nameTag.draggable = true;
+        nameTag.dataset.name = previousName;
+        // Add drag events
+        nameTag.addEventListener('dragstart', handleDragStart);
+        nameTag.addEventListener('dragend', handleDragEnd);
+        namesContainer.appendChild(nameTag);
+    }
+
+    // Clear previous item in this drop zone
+    e.target.innerHTML = '';
+    
+    // Remove item from previous location if it was placed elsewhere
+    Object.keys(gameState.placedItems).forEach(key => {
+        if (gameState.placedItems[key] === draggedName) {
+            delete gameState.placedItems[key];
+        }
+    });
+    
+    // Place the item
+    gameState.placedItems[targetId] = draggedName;
+    e.target.textContent = draggedName;
+    
+    // Remove the dragged item from the names container
+    const draggedElement = document.querySelector(`[data-name="${draggedName}"]`);
+    if (draggedElement) {
+        draggedElement.remove();
+    }
+    
+    checkIfCanSubmit();
+}
+
+function checkIfCanSubmit() {
+    const submitButton = document.getElementById('submitButton');
+    const placedCount = Object.keys(gameState.placedItems).length;
+    
+    if (placedCount === gameData.elements.length) {
+        submitButton.disabled = false;
+    } else {
+        submitButton.disabled = true;
+    }
+}
+
+function checkAnswers() {
+    let correctCount = 0;
+    let totalCount = gameData.elements.length;
+    
+    gameData.elements.forEach(element => {
+        if (gameState.placedItems[element.id] === element.name) {
+            correctCount++;
+        }
+    });
+    
+    const resultMessage = document.getElementById('resultMessage');
+    const postGameControls = document.getElementById('postGameControls');
+    
+    if (correctCount === totalCount) {
+        resultMessage.textContent = `Bravo! Točno ste povezali sva ${correctCount} elementa!`;
+        resultMessage.className = 'result-message success';
+        
+        // Enable image clicks
+        document.querySelectorAll('.element-image').forEach(img => {
+            img.style.cursor = 'pointer';
+            img.style.opacity = '1';
+        });
+    } else {
+        resultMessage.innerHTML = `Imate ${correctCount} od ${totalCount} točnih odgovora. Pokušajte ponovno!\nKlikom na sliku elementa možete vidjeti detalje o elementu kako bi sljedeći puta znali  točno odgovoriti.`.replace(/\n/g, "<br>");
+        resultMessage.className = 'result-message error';
+    }
+    
+    gameState.gameCompleted = true;
+    postGameControls.classList.add('show');
+    
+    // Disable submit button
+    document.getElementById('submitButton').disabled = true;
+}
+
+function handleImageClick(e) {
+    if (gameState.gameCompleted) {
+        window.location.href = 'element-page.html';
+    }
+}
+
+async function nextGame() {
+    // Reset game state
+    gameState = {
+        placedItems: {},
+        gameCompleted: false
+    };
+    
+    // Hide result message and controls
+    const resultMessage = document.getElementById('resultMessage');
+    resultMessage.textContent = '';
+    resultMessage.className = '';
+    resultMessage.style.display = 'none';
+    document.getElementById('postGameControls').classList.remove('show');
+    
+    // Reload the game with new elements
+    await fetchRandomElements(3);
+    loadGame();
+
+    resultMessage.style.display = '';
+}
+
+// Initialize drag and drop when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Game will be initialized when start button is clicked
+});

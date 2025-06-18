@@ -19,8 +19,8 @@
             <a href="folder-favoriti.html" class="nav-icon auth-required"><img src="icons/heart.svg" alt="Heart icon"></a>
             <a href="folder-zelje.html" class="nav-icon auth-required"><img src="icons/star.svg" alt="Star icon"></a>
             <a href="game.html" class="nav-icon"><img src="icons/Game Controller.png" alt="Game icon"></a>
-            <a href="profile.html" class="nav-icon auth-required"><img src="icons/account.svg" alt="Account icon"></a>
-            <a href="login.html" class="nav-icon guest-only"><img src="icons/login.png" alt="Login"></a>
+            <a href="profile.html" class="nav-icon auth-required" style="display: none;"><img src="icons/account.svg" alt="Account icon"></a>
+            <a href="login.html" class="nav-icon guest-only" style="display: none;"><img src="icons/login.png" alt="Login"></a>
             <a href="index.html" class="nav-icon"><img src="icons/home.svg" alt="Home icon"></a>
         </nav>
     </header>
@@ -39,39 +39,24 @@
 
     <section class="filter-section">
         <div class="filter-search">
-            <input type="text" class="search-bar" placeholder="Pretraži elemente...">
-            <button class="search-button">Pretraži</button>
+            <input type="text" id="search-input" class="search-bar" placeholder="Pretraži elemente...">
+            <button class="search-button" id="search-btn">Pretraži</button>
+            <button class="search-button" id="reset-filters">Reset</button>
         </div>
 
         <div class="filter-buttons">
-            <button class="filter-button">Level</button>
-            <button class="filter-button">Level</button>
-            <button class="filter-button">Level</button>
-            <button class="filter-button">Level</button>
-            <button class="filter-button">Level</button>
-            <button class="filter-button">Level</button>
-        </div>
-
-        <div class="filter-text">
-            <p>Broj elemenenata odabrane kategorije: broj.</p>
+            <button class="filter-button active" data-level="All">All</button>
+            <button class="filter-button" data-level="Spins">Spins</button>
+            <button class="filter-button" data-level="Beginner">Beginner</button>
+            <button class="filter-button" data-level="Intermediate">Intermediate</button>
+            <button class="filter-button" data-level="Advanced">Advanced</button>
+            <button class="filter-button" data-level="Other">Other</button>
         </div>
     </section>
 
     <section class="content-section">
         <div class="elements">
-            <div class="elements-item">Beginner Classes</div>
-            <div class="elements-item">Advanced Training</div>
-            <div class="elements-item">Flexibility Focus</div>
-            <div class="elements-item">Strength Building</div>
-            <div class="elements-item">Choreography</div>
-            <div class="elements-item">Competition Prep</div>
-            <div class="elements-item">Open Practice</div>
-            <div class="elements-item">Workshops</div>
-            <div class="elements-item">Strength Building</div>
-            <div class="elements-item">Choreography</div>
-            <div class="elements-item">Competition Prep</div>
-            <div class="elements-item">Open Practice</div>
-            <div class="elements-item">Workshops</div>
+            
         </div>
     </section>
 
@@ -123,4 +108,5 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="scripts/firebase-config.js"></script>
 <script src="scripts/auth.js"></script>
+<script src="scripts/fetch-elements.js"></script>
 </html>
