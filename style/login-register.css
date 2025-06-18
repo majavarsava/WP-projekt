@@ -125,7 +125,7 @@
 .file-upload-button {
     background: #bfbffa;
     color: white;
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem 0.8rem 0.5rem 0.8rem;
     border: none;
     border-radius: 1rem;
     cursor: pointer;
@@ -141,4 +141,16 @@
 .file-input:focus {
     outline: none;
     border-color: #9370DB;
+}
+
+.add-element-button, .edit-element-button {
+    background: #9370DB;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
 }

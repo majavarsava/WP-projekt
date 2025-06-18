@@ -1,3 +1,5 @@
+const db = firebase.firestore();
+
 const protectedPages = [
     "profile.html",
     "folder-zelje.html",
