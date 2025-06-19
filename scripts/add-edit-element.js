@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 name,
                 description,
                 level,
-                levelNumber: Number(levelNumber),
                 image: imageUrl,
                 video: videoUrl
             };
@@ -117,8 +116,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             const data = doc.data();
             document.getElementById('name').value = data.name || "";
             document.getElementById('description').value = data.description || "";
-            if (typeof data.levelNumber !== "undefined") {
-                document.querySelector(`input[name="level"][value="${data.levelNumber}"]`).checked = true;
+            if (typeof data.level !== "undefined") {
+                // Find the radio with the correct level string
+                const radio = Array.from(document.querySelectorAll('input[name="level"]'))
+                    .find(r => r.parentElement.textContent.trim().toLowerCase() === data.level.toLowerCase());
+                if (radio) radio.checked = true;
             }
             // Optionally show current image/video somewhere
         } catch (err) {
@@ -161,7 +163,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 name,
                 description,
                 level,
-                levelNumber: Number(levelNumber)
             };
 
             // Upload new image if provided
