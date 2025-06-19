@@ -1,4 +1,4 @@
-// Register the center text plugin
+// center text plugin
 const centerTextPlugin = {
     id: 'centerText',
     afterDraw(chart, args, options) {
@@ -9,7 +9,7 @@ const centerTextPlugin = {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         const percent = options.percent || 0;
-        const displayText = percent === 100 ? "✔" : percent + "%";
+        const displayText = percent === 100 ? "✔" : percent + "%"; // kada je 100% onda je checkmark, kad nije onda je %
         ctx.fillText(displayText, width / 2, height / 2);
         ctx.restore();
     }
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const statsDiv = document.getElementById('profile-stats');
     if (!statsDiv) return;
 
-    // Add title
+    // naslov dodavanje
     statsDiv.innerHTML = `<div class="profile-stats-title">Statistika usavršenih elemenata</div><div class="profile-stats-charts" id="profile-stats-charts"></div>`;
     const chartsGrid = document.getElementById('profile-stats-charts');
 
@@ -40,17 +40,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const db = firebase.firestore();
 
-        // Get all elements from DB
+        // svi elementi iz baze
         const allElementsSnap = await db.collection('elements').get();
         const allElements = [];
         allElementsSnap.forEach(doc => allElements.push({ id: doc.id, ...doc.data() }));
 
-        // Get user's mastered elements
+        // svi elementi koji su mastered - OD USERA
         const userDoc = await db.collection('users').doc(user.uid).get();
         const masteredIds = userDoc.data()?.folders?.mastered || [];
         const masteredElements = allElements.filter(el => masteredIds.includes(el.id));
 
-        // For each level, count totals and mastered
+        // za svaki level, count za sve el i mastered el
         LEVELS.forEach(level => {
             let total, mastered;
 
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
 
-            // Create chart container
+            // chart container
             const chartId = `chart-${level.key}`;
             const chartContainer = document.createElement('div');
             chartContainer.style.display = "flex";
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             chartsGrid.appendChild(chartContainer);
 
             const percent = total === 0 ? 0 : Math.round((mastered / total) * 100);
-            // Draw chart
+            // crtanje charta
             const ctx = chartContainer.querySelector('canvas').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',

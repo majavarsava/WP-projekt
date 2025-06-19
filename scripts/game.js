@@ -21,16 +21,16 @@ async function fetchRandomElements(count = 3) {
         });
     });
 
-    // Shuffle and pick random elements
+    // izabiranje random el (3)
     allElements.sort(() => Math.random() - 0.5);
     const selected = allElements.slice(0, count);
 
-    // Prepare distractors (names not in selected)
+    // distraktori su ostali elementi koji nisu izabrani - samo njihova imena ce se prikazat
     const distractors = allElements
         .filter(el => !selected.some(sel => sel.name === el.name))
         .map(el => el.name);
 
-    // Shuffle and pick up to 3 distractors
+    // random 3 distraktora
     distractors.sort(() => Math.random() - 0.5);
     gameData.elements = selected;
     gameData.distractors = distractors.slice(0, 3);
@@ -68,10 +68,10 @@ function loadNames() {
     const container = document.getElementById('namesContainer');
     container.innerHTML = '';
     
-    // Combine correct names with distractors
+    // kombiniraj elemenete i imena distraktora
     const allNames = [...gameData.elements.map(e => e.name), ...gameData.distractors];
     
-    // Shuffle the names
+    // promjesat imena
     allNames.sort(() => Math.random() - 0.5);
     
     allNames.forEach(name => {
@@ -85,13 +85,13 @@ function loadNames() {
 }
 
 function setupDragAndDrop() {
-    // Setup drag events for name tags
+    // drag event za imena
     document.querySelectorAll('.name-tag').forEach(tag => {
         tag.addEventListener('dragstart', handleDragStart);
         tag.addEventListener('dragend', handleDragEnd);
     });
     
-    // Setup drop events for drop zones
+    // drag event za drop zonu di idu imena
     document.querySelectorAll('.drop-zone').forEach(zone => {
         zone.addEventListener('dragover', handleDragOver);
         zone.addEventListener('dragenter', handleDragEnter);
@@ -99,7 +99,7 @@ function setupDragAndDrop() {
         zone.addEventListener('drop', handleDrop);
     });
     
-    // Setup click events for images (disabled initially)
+    // klik na slike elemenata (moguce nakon igre)
     document.querySelectorAll('.element-image').forEach(img => {
         img.addEventListener('click', handleImageClick);
     });
@@ -134,7 +134,7 @@ function handleDrop(e) {
     const draggedName = e.dataTransfer.getData('text/plain');
     const targetId = e.target.dataset.target;
     
-    // If there was already a name in this drop zone, return it to the names container
+    // ako je ime u drop zoni i doda se novo, staro ime se vraca medu ostale
     const previousName = e.target.textContent.trim();
     if (previousName && previousName !== draggedName) {
         const namesContainer = document.getElementById('namesContainer');
@@ -143,27 +143,27 @@ function handleDrop(e) {
         nameTag.textContent = previousName;
         nameTag.draggable = true;
         nameTag.dataset.name = previousName;
-        // Add drag events
+        // drag eventi
         nameTag.addEventListener('dragstart', handleDragStart);
         nameTag.addEventListener('dragend', handleDragEnd);
         namesContainer.appendChild(nameTag);
     }
 
-    // Clear previous item in this drop zone
+    // obrisi staro ime iz drop zone
     e.target.innerHTML = '';
     
-    // Remove item from previous location if it was placed elsewhere
+    // makni ime iz prosle lokacije ako je prije bilo postavljeno
     Object.keys(gameState.placedItems).forEach(key => {
         if (gameState.placedItems[key] === draggedName) {
             delete gameState.placedItems[key];
         }
     });
     
-    // Place the item
+    // stavi ime
     gameState.placedItems[targetId] = draggedName;
     e.target.textContent = draggedName;
     
-    // Remove the dragged item from the names container
+    // makni ime iz liste imena
     const draggedElement = document.querySelector(`[data-name="${draggedName}"]`);
     if (draggedElement) {
         draggedElement.remove();
@@ -200,7 +200,7 @@ function checkAnswers() {
         resultMessage.textContent = `Bravo! Točno ste povezali sva ${correctCount} elementa!`;
         resultMessage.className = 'result-message success';
         
-        // Enable image clicks
+        // image klik vodi na detalje
         document.querySelectorAll('.element-image').forEach(img => {
             img.style.cursor = 'pointer';
             img.style.opacity = '1';
@@ -213,7 +213,7 @@ function checkAnswers() {
     gameState.gameCompleted = true;
     postGameControls.classList.add('show');
     
-    // Disable submit button
+    // disable klik na submit 
     document.getElementById('submitButton').disabled = true;
 }
 
@@ -224,27 +224,27 @@ function handleImageClick(e) {
 }
 
 async function nextGame() {
-    // Reset game state
+    // reset game state
     gameState = {
         placedItems: {},
         gameCompleted: false
     };
     
-    // Hide result message and controls
+    // sakrij tekst i resetiraj poruku, kontrole
     const resultMessage = document.getElementById('resultMessage');
     resultMessage.textContent = '';
     resultMessage.className = '';
     resultMessage.style.display = 'none';
     document.getElementById('postGameControls').classList.remove('show');
     
-    // Reload the game with new elements
+    // nova igra s novim el
     await fetchRandomElements(3);
     loadGame();
 
     resultMessage.style.display = '';
 }
 
-// Initialize drag and drop when page loads
+// drag and drop kad se pokrene stranica
 document.addEventListener('DOMContentLoaded', function() {
-    // Game will be initialized when start button is clicked
+    // igra se pokrece na klik gumba start
 });

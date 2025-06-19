@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    // Only run on elements.html
     if (!window.location.pathname.endsWith("elements.html")) return;
 
     const db = firebase.firestore();
@@ -11,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const filterButtons = document.querySelectorAll('.filter-button');
     let allElements = [];
 
-    // Fetch all elements once
+    // fetch elements at once
     async function fetchAllElements() {
         elementsList.innerHTML = "Učitavanje...";
         const snapshot = await db.collection('elements').get();
@@ -22,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         renderElements();
     }
 
-    // Render elements based on current search/filter
+    // render elements based on current search/filter
     async function renderElements() {
         let searchTerm = searchInput.value.trim().toLowerCase();
         let activeLevel = document.querySelector('.filter-button.active')?.dataset.level || "All";
@@ -66,21 +65,20 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     const resetBtn = document.getElementById('reset-filters');
     resetBtn.addEventListener('click', function() {
-        // Clear search
         searchInput.value = "";
-        // Set "All" as active
+        // all opet aktivno
         filterButtons.forEach(b => b.classList.remove('active'));
         document.querySelector('.filter-button[data-level="All"]').classList.add('active');
         renderElements();
     });
 
-    // Search functionality
+    // search func
     searchBtn.addEventListener('click', renderElements);
     searchInput.addEventListener('keyup', function(e) {
         if (e.key === "Enter") renderElements();
     });
 
-    // Filter functionality
+    // filter func
     filterButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             filterButtons.forEach(b => b.classList.remove('active'));
@@ -89,13 +87,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     });
 
-    // Initial fetch
+    // inicijalni fetch
     fetchAllElements();
 });
 
 document.addEventListener('DOMContentLoaded', async function() {
     if (!window.location.pathname.endsWith("element-page.html")) return;
-    // Get element ID from URL
+    // element ID from URL
     const params = new URLSearchParams(window.location.search);
     const elementId = params.get('id');
     if (!elementId) return;
@@ -111,9 +109,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         const data = doc.data();
 
-        // Set image with proper Firebase handling
+        // set image with proper Firebase handling
         const imageDiv = document.getElementById('element-image');
-        let imageUrl = "images/logo-big.png"; // default fallback
+        let imageUrl = "images/logo-big.png"; // ak nema
 
         if (data.image) {
             if (data.image.startsWith('http')) {
@@ -126,16 +124,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             }
         }
-        // Set the image with proper styling to fit container
+        // set the image with proper styling to fit container
         imageDiv.innerHTML = `<img src="${imageUrl}" alt="${data.name || 'Element'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;">`;
 
-        // Set name
         document.getElementById('element-name').textContent = data.name || "Nepoznat element";
-
-        // Set level
         document.getElementById('element-level').textContent = data.level || "";
-
-        // Set description
         document.getElementById('element-description').textContent = data.description || "";
         
         // --- FILL ICONS IF IN USER'S FOLDERS ---
@@ -145,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const userDoc = await userRef.get();
             const folders = userDoc.data()?.folders || {};
 
-            // Helper to update folder and icon
+            // uod folder i icon
             async function toggleFolder(folderKey, iconEl, filledSrc, emptySrc) {
                 let arr = folders[folderKey] || [];
                 const idx = arr.indexOf(elementId);
@@ -160,7 +153,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 await userRef.update({ folders });
             }
             
-            // Heart (favorites)
+            // favorites
             const heartDiv = document.querySelector('.folder-icon[title="Favoriti"]');
             if (heartDiv) {
                 const heartIcon = heartDiv.querySelector('img');
@@ -170,7 +163,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 };
             }
 
-            // Star (wishlist)
+            // wishlist
             const starDiv = document.querySelector('.folder-icon[title="Želje"]');
             if (starDiv) {
                 const starIcon = starDiv.querySelector('img');
@@ -180,7 +173,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 };
             }
 
-            // Checkmark (mastered)
+            // smastered
             const checkDiv = document.querySelector('.folder-icon[title="Usavršeni elementi"]');
             if (checkDiv) {
                 const checkIcon = checkDiv.querySelector('img');
@@ -223,11 +216,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 document.addEventListener('DOMContentLoaded', async function() {
-    // Only run on folder pages
     const path = window.location.pathname;
     if (!path.includes('folder-')) return;
 
-    // Map page to folder key
+    // map page to folder key
     let folderKey = null;
     if (path.includes('zelje')) folderKey = 'wishlist';
     else if (path.includes('favoriti')) folderKey = 'favorites';
@@ -241,14 +233,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     const filterButtons = document.querySelectorAll('.filter-button');
     const resetBtn = document.getElementById('reset-filters');
 
-    // Wait for auth
+    // wait for auth
     firebase.auth().onAuthStateChanged(async function(user) {
         if (!user) {
             elementsList.innerHTML = "<p>Morate biti prijavljeni.</p>";
             return;
         }
 
-        // Get user's folder array
+        // get user's folder array
         const userDoc = await db.collection('users').doc(user.uid).get();
         const folders = userDoc.data()?.folders || {};
         const elementIds = folders[folderKey] || [];
@@ -257,14 +249,14 @@ document.addEventListener('DOMContentLoaded', async function() {
             return;
         }
 
-        // Fetch all elements by IDs
+        // fetch all elements by IDs
         let allElements = [];
         for (const id of elementIds) {
             const elDoc = await db.collection('elements').doc(id).get();
             if (elDoc.exists) allElements.push({ id, ...elDoc.data() });
         }
 
-        // Filtering and rendering logic
+        // filtering and rendering logic
         async function renderElements() {
             let searchTerm = searchInput.value.trim().toLowerCase();
             let activeLevel = document.querySelector('.filter-button.active')?.dataset.level || "All";
@@ -306,7 +298,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         }
 
-        // Event listeners
         searchBtn.addEventListener('click', renderElements);
         searchInput.addEventListener('keyup', function(e) {
             if (e.key === "Enter") renderElements();
@@ -325,7 +316,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             renderElements();
         });
 
-        // Initial render
         renderElements();
     });
 });
@@ -375,7 +365,6 @@ async function showBeginnerElements() {
     }
 }
 
-// Call this ONLY on the homepage (index.html)
 document.addEventListener('DOMContentLoaded', function() {
     if (window.location.pathname.endsWith("index.html")) {
         showBeginnerElements();

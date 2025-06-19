@@ -11,7 +11,7 @@ const adminPages = [
     "add-element.html"
 ];
 
-// Redirect to login if not authenticated (for profile.html)
+// redirect to login if not authenticated - za sve protected pages
 if (protectedPages.some(page => window.location.pathname.endsWith(page))) {
     firebase.auth().onAuthStateChanged(function(user) {
         if (!user) {
@@ -86,7 +86,7 @@ if (loginForm) {
     const loginError = document.getElementById('login-error');
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        loginError.textContent = ''; // Clear previous error message
+        loginError.textContent = ''; // ocisti stari eror
         const username = loginForm.querySelector('input[type="text"]').value.trim();
         const password = loginForm.querySelector('input[type="password"]').value;
         const email = username.toLowerCase() + '@artitudo.app';
@@ -106,7 +106,7 @@ if (registerForm) {
     const registerError = document.getElementById('register-error');
     registerForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        registerError.textContent = ''; // Clear previous error message
+        registerError.textContent = ''; // ocisti stari eror
         console.log("Register form submitted");
         const username = registerForm.querySelector('input[type="text"]').value.trim();
         const password = registerForm.querySelectorAll('input[type="password"]')[0].value;

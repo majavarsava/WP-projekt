@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 
-                <!-- Right image with controls -->
+                <!-- dense slike + kontrola slidera -->
                 <div class="right-image-section">
                     <div class="right-image-container">
                         <div class="right-slider-container" id="rightSliderContainer">
@@ -152,13 +152,13 @@
                 const leftContainer = document.getElementById('leftSliderContainer');
                 const rightContainer = document.getElementById('rightSliderContainer');
                 const dots = document.querySelectorAll('.dot');   
-                // Update current slide
+                // upd current slide
                 currentSlide = slideIndex;      
-                // Move slider
+                // move slider
                 const translateX = -slideIndex * (25-0.016); // adjusting for the width of the white gap
                 leftContainer.style.transform = `translateX(${translateX}%)`;
                 rightContainer.style.transform = `translateX(${translateX}%)`;        
-                // Update dots
+                // upd dots
                 dots.forEach((dot, index) => {
                     if (index === slideIndex) {
                         dot.classList.add('active');

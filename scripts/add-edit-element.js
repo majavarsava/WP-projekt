@@ -9,9 +9,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            errorDiv.textContent = ""; // Clear previous errors
+            errorDiv.textContent = ""; // ocisti stari eror
 
-            // Get values
             const name = document.getElementById('name').value.trim();
             const description = document.getElementById('description').value.trim();
             const levelRadio = document.querySelector('input[name="level"]:checked');
@@ -37,11 +36,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                 case "4": level = "Other"; break;
             }
 
-            // Generate ID: name.toLowerCase() without special chars or spaces
+            // id je ime el normalizirano sve malo
             let id = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                 .replace(/[^a-z0-9]/g, "");
 
-            // Upload image if provided
+            // upload slike
             let imageUrl = "";
             if (imageFile) {
                 const imgRef = storage.ref().child(`element_images/${id}_${Date.now()}`);
@@ -49,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 imageUrl = await imgRef.getDownloadURL();
             }
 
-            // Upload video if provided
+            // upload videa
             let videoUrl = "";
             if (videoFile) {
                 const vidRef = storage.ref().child(`element_videos/${id}_${Date.now()}`);
@@ -57,7 +56,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 videoUrl = await vidRef.getDownloadURL();
             }
 
-            // Prepare element data
             const elementData = {
                 name,
                 description,
@@ -66,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 video: videoUrl
             };
 
-            // Add to Firestore
+            // dodavanje u fs db
             try {
                 await db.collection('elements').doc(id).set(elementData);
                 errorDiv.textContent = "";
@@ -81,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const editBtn = document.getElementById('edit-button');
         if (!editBtn) return;
 
-        // Get element ID from URL
+        // id s urla
         const params = new URLSearchParams(window.location.search);
         const elementId = params.get('id');
         if (!elementId) return;
@@ -98,7 +96,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const errorDiv = document.getElementById('edit-element-error');
         const form = document.querySelector('form');
 
-        // Get element ID from URL
+        // id s urla
         const params = new URLSearchParams(window.location.search);
         const elementId = params.get('id');
         if (!elementId) {
@@ -106,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             return;
         }
 
-        // Fetch element data and pre-fill form
+        // forma ispunjena da bi se editala
         try {
             const doc = await db.collection('elements').doc(elementId).get();
             if (!doc.exists) {
@@ -117,18 +115,17 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.getElementById('name').value = data.name || "";
             document.getElementById('description').value = data.description || "";
             if (typeof data.level !== "undefined") {
-                // Find the radio with the correct level string
+                // level radio
                 const radio = Array.from(document.querySelectorAll('input[name="level"]'))
                     .find(r => r.parentElement.textContent.trim().toLowerCase() === data.level.toLowerCase());
                 if (radio) radio.checked = true;
             }
-            // Optionally show current image/video somewhere
         } catch (err) {
             errorDiv.textContent = "Greška pri dohvaćanju podataka: " + err.message;
             return;
         }
 
-        // Handle form submit
+        // submit spremanje promjena
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             errorDiv.textContent = "";
@@ -158,28 +155,25 @@ document.addEventListener('DOMContentLoaded', async function() {
                 case "4": level = "Other"; break;
             }
 
-            // Prepare update data
             let updateData = {
                 name,
                 description,
                 level,
             };
 
-            // Upload new image if provided
             if (imageFile) {
                 const imgRef = storage.ref().child(`element_images/${elementId}_${Date.now()}`);
                 await imgRef.put(imageFile);
                 updateData.image = await imgRef.getDownloadURL();
             }
 
-            // Upload new video if provided
             if (videoFile) {
                 const vidRef = storage.ref().child(`element_videos/${elementId}_${Date.now()}`);
                 await vidRef.put(videoFile);
                 updateData.video = await vidRef.getDownloadURL();
             }
 
-            // Update Firestore
+            // update na fs db
             try {
                 await db.collection('elements').doc(elementId).update(updateData);
                 errorDiv.textContent = "";

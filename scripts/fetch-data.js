@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Only run on profile.html
     if (window.location.pathname.endsWith("profile.html")) {
         firebase.auth().onAuthStateChanged(async function(user) {
             if (user) {
@@ -43,17 +42,17 @@ async function cleanupUserFolders(userId) {
         (folders[key] || []).forEach(id => allIds.add(id));
     });
 
-    // Check which IDs still exist
+    // koji ID jos postoje
     const checkPromises = Array.from(allIds).map(async id => {
         const elDoc = await db.collection('elements').doc(id).get();
         return { id, exists: elDoc.exists };
     });
     const results = await Promise.all(checkPromises);
 
-    // Build a set of valid IDs
+    // ovi su validni
     const validIds = new Set(results.filter(r => r.exists).map(r => r.id));
 
-    // Remove non-existing IDs from folders
+    // makni ne-validne, tj ove koji ne postoje
     folderKeys.forEach(key => {
         const original = folders[key] || [];
         const filtered = original.filter(id => validIds.has(id));
@@ -63,7 +62,7 @@ async function cleanupUserFolders(userId) {
         }
     });
 
-    // Update user doc if any changes
+    // update doc ak ima promjene
     if (changed) {
         await userRef.update({ folders });
         console.log("User folders cleaned up.");
@@ -75,7 +74,7 @@ async function showFavoriteElements(userId) {
     const gallery = document.querySelector('.elements');
     if (!gallery) return;
 
-    // Get user's favorites
+    // user's favorites
     const userDoc = await db.collection('users').doc(userId).get();
     const favorites = userDoc.data()?.folders?.favorites || [];
     if (!favorites.length) {
@@ -83,14 +82,14 @@ async function showFavoriteElements(userId) {
         return;
     }
 
-    // Fetch up to 4 favorite elements
+    // 4 fav
     const elementPromises = favorites.slice(0, 4).map(async id => {
         const elDoc = await db.collection('elements').doc(id).get();
         return elDoc.exists ? { id, ...elDoc.data() } : null;
     });
     const elements = (await Promise.all(elementPromises)).filter(Boolean);
 
-    // Render elements
+    // render elements
     gallery.innerHTML = "";
     if (!elements.length) {
         gallery.innerHTML = "<p>Nema omiljenih elemenata za prikaz.</p>";
