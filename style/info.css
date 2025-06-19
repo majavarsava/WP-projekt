@@ -6,16 +6,61 @@
     padding: 4rem 2rem;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     min-height: 50vh;
+    gap: 4rem;
 }
 
 .profile-card {
     padding: 2.5rem;
     border-radius: 1rem;
     width: 100%;
-    max-width: 50rem;
+    max-width: 35rem;
     margin-left: 2rem;
+}
+
+.profile-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    gap: 2rem;
+    margin-right: 2rem;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    padding: 2rem 2rem 2rem 2rem;
+    
+}
+
+.profile-stats-charts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem 3rem;
+    justify-items: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.profile-stats-charts canvas {
+    width: 9rem !important;
+    height: 9rem !important;
+    display: block;
+}
+
+.profile-stats-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #9370DB;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.stats-chart-label {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: #666;
 }
 
 .profile-username {
@@ -58,7 +103,7 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 25%;
+    width: 50%;
 }
 
 .profile-button:hover {
