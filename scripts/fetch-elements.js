@@ -131,6 +131,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             folders[folderKey] = arr;
             await userRef.update({ folders });
         }
+        
         // favorites
         const heartDiv = document.querySelector('.folder-icon[title="Favoriti"]');
         if (heartDiv) {
