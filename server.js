@@ -62,7 +62,7 @@ app.delete('/api/elements/:id', async (req, res) => {
     }
     const data = doc.data();
 
-    // Helper to extract storage path from download URL
+    // extract storage path from download URL
     function extractStoragePath(url) {
       const match = url.match(/\/o\/(.*?)\?/);
       if (match && match[1]) {
@@ -71,7 +71,7 @@ app.delete('/api/elements/:id', async (req, res) => {
       return null;
     }
 
-    // Delete image from storage if exists
+    // delete image from storage if exists
     if (data.image && typeof data.image === "string") {
       let filePath = null;
       if (data.image.startsWith('http') && data.image.includes("firebasestorage.googleapis.com")) {
@@ -87,7 +87,7 @@ app.delete('/api/elements/:id', async (req, res) => {
       }
     }
 
-    // Delete video from storage if exists
+    // delete video from storage if exists
     if (data.video && typeof data.video === "string") {
       let filePath = null;
       if (data.video.startsWith('http') && data.video.includes("firebasestorage.googleapis.com")) {
