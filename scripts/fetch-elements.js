@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function() {
     if (!window.location.pathname.endsWith("elements.html")) return;
 
-    const db = firebase.firestore();
-    const storage = firebase.storage();
     const elementsList = document.getElementById('elements-list');
     elementsList.innerHTML = "Učitavanje...";
     const searchInput = document.getElementById('search-input');
@@ -13,11 +11,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     // fetch elements at once
     async function fetchAllElements() {
         elementsList.innerHTML = "Učitavanje...";
-        const snapshot = await db.collection('elements').get();
-        allElements = [];
-        snapshot.forEach(doc => {
-            allElements.push({ id: doc.id, ...doc.data() });
-        });
+        const response = await fetch('http://localhost:3001/api/elements');
+        allElements = await response.json();
         renderElements();
     }
 
@@ -93,99 +88,80 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 document.addEventListener('DOMContentLoaded', async function() {
     if (!window.location.pathname.endsWith("element-page.html")) return;
+    
     // element ID from URL
     const params = new URLSearchParams(window.location.search);
     const elementId = params.get('id');
     if (!elementId) return;
 
+    const response = await fetch('http://localhost:3001/api/elements');
+    const allElements = await response.json();
+    const data = allElements.find(el => el.id === elementId);
+    if (!data) return;
+
+    // Set image
+    const imageDiv = document.getElementById('element-image');
+    let imageUrl = "images/logo-big.png";
+    if (data.image && data.image.startsWith('http')) imageUrl = data.image;
+    imageDiv.innerHTML = `<img src="${imageUrl}" alt="${data.name || 'Element'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;">`;
+
+    document.getElementById('element-name').textContent = data.name || "Nepoznat element";
+    document.getElementById('element-level').textContent = data.level || "";
+    document.getElementById('element-description').textContent = data.description || "";
+
+    // FILL ICONS IF IN USER'S FOLDERS
     const db = firebase.firestore();
-    const storage = firebase.storage();
-    const doc = await db.collection('elements').doc(elementId).get();
-    if (!doc.exists) return;
+    firebase.auth().onAuthStateChanged(async function(user) {
+        if (!user) return; 
+        const userRef = await db.collection('users').doc(user.uid);
+        const userDoc = await userRef.get();
+        const folders = userDoc.data()?.folders || {};
 
-    try {
-        const doc = await db.collection('elements').doc(elementId).get();
-        if (!doc.exists) return;
-
-        const data = doc.data();
-
-        // set image with proper Firebase handling
-        const imageDiv = document.getElementById('element-image');
-        let imageUrl = "images/logo-big.png"; // ak nema
-
-        if (data.image) {
-            if (data.image.startsWith('http')) {
-                imageUrl = data.image;
+        // uod folder i icon
+        async function toggleFolder(folderKey, iconEl, filledSrc, emptySrc) {
+            let arr = folders[folderKey] || [];
+            const idx = arr.indexOf(elementId);
+            if (idx === -1) {
+                arr.push(elementId);
+                iconEl.querySelector('img').src = filledSrc;
             } else {
-                try {
-                    imageUrl = await storage.ref(data.image).getDownloadURL();
-                } catch (e) {
-                    console.warn(`Failed to load Firebase image:`, e);
-                }
+                arr.splice(idx, 1);
+                iconEl.querySelector('img').src = emptySrc;
             }
+            folders[folderKey] = arr;
+            await userRef.update({ folders });
         }
-        // set the image with proper styling to fit container
-        imageDiv.innerHTML = `<img src="${imageUrl}" alt="${data.name || 'Element'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;">`;
-
-        document.getElementById('element-name').textContent = data.name || "Nepoznat element";
-        document.getElementById('element-level').textContent = data.level || "";
-        document.getElementById('element-description').textContent = data.description || "";
+        // favorites
+        const heartDiv = document.querySelector('.folder-icon[title="Favoriti"]');
+        if (heartDiv) {
+            const heartIcon = heartDiv.querySelector('img');
+            heartIcon.src = (folders.favorites && folders.favorites.includes(elementId)) ? "icons/heart-filled.svg" : "icons/heart.svg";
+            heartDiv.onclick = async () => {
+                await toggleFolder("favorites", heartDiv, "icons/heart-filled.svg", "icons/heart.svg");
+            };
+        }
         
-        // --- FILL ICONS IF IN USER'S FOLDERS ---
-        firebase.auth().onAuthStateChanged(async function(user) {
-            if (!user) return;
-            const userRef = await db.collection('users').doc(user.uid);
-            const userDoc = await userRef.get();
-            const folders = userDoc.data()?.folders || {};
+        // wishlist
+        const starDiv = document.querySelector('.folder-icon[title="Želje"]');
+        if (starDiv) {
+            const starIcon = starDiv.querySelector('img');
+            starIcon.src = (folders.wishlist && folders.wishlist.includes(elementId)) ? "icons/star-filled.svg" : "icons/star.svg";
+            starDiv.onclick = async () => {
+                await toggleFolder("wishlist", starDiv, "icons/star-filled.svg", "icons/star.svg");
+            };
+        }
+        
+        // smastered
+        const checkDiv = document.querySelector('.folder-icon[title="Usavršeni elementi"]');
+        if (checkDiv) {
+            const checkIcon = checkDiv.querySelector('img');
+            checkIcon.src = (folders.mastered && folders.mastered.includes(elementId)) ? "icons/checkmark-filled.svg" : "icons/checkmark.svg";
+            checkDiv.onclick = async () => {
+                await toggleFolder("mastered", checkDiv, "icons/checkmark-filled.svg", "icons/checkmark.svg");
+            };
+        }
+    });
 
-            // uod folder i icon
-            async function toggleFolder(folderKey, iconEl, filledSrc, emptySrc) {
-                let arr = folders[folderKey] || [];
-                const idx = arr.indexOf(elementId);
-                if (idx === -1) {
-                    arr.push(elementId);
-                    iconEl.querySelector('img').src = filledSrc;
-                } else {
-                    arr.splice(idx, 1);
-                    iconEl.querySelector('img').src = emptySrc;
-                }
-                folders[folderKey] = arr;
-                await userRef.update({ folders });
-            }
-            
-            // favorites
-            const heartDiv = document.querySelector('.folder-icon[title="Favoriti"]');
-            if (heartDiv) {
-                const heartIcon = heartDiv.querySelector('img');
-                heartIcon.src = (folders.favorites && folders.favorites.includes(elementId)) ? "icons/heart-filled.svg" : "icons/heart.svg";
-                heartDiv.onclick = async () => {
-                    await toggleFolder("favorites", heartDiv, "icons/heart-filled.svg", "icons/heart.svg");
-                };
-            }
-
-            // wishlist
-            const starDiv = document.querySelector('.folder-icon[title="Želje"]');
-            if (starDiv) {
-                const starIcon = starDiv.querySelector('img');
-                starIcon.src = (folders.wishlist && folders.wishlist.includes(elementId)) ? "icons/star-filled.svg" : "icons/star.svg";
-                starDiv.onclick = async () => {
-                    await toggleFolder("wishlist", starDiv, "icons/star-filled.svg", "icons/star.svg");
-                };
-            }
-
-            // smastered
-            const checkDiv = document.querySelector('.folder-icon[title="Usavršeni elementi"]');
-            if (checkDiv) {
-                const checkIcon = checkDiv.querySelector('img');
-                checkIcon.src = (folders.mastered && folders.mastered.includes(elementId)) ? "icons/checkmark-filled.svg" : "icons/checkmark.svg";
-                checkDiv.onclick = async () => {
-                    await toggleFolder("mastered", checkDiv, "icons/checkmark-filled.svg", "icons/checkmark.svg");
-                };
-            }
-        });
-    } catch (error) {
-        console.error('Error loading element:', error);
-    }
     const deleteBtn = document.getElementById('delete-button');
     if (deleteBtn) {
         firebase.auth().onAuthStateChanged(async function(user) {
@@ -193,13 +169,16 @@ document.addEventListener('DOMContentLoaded', async function() {
                 deleteBtn.style.display = 'none';
                 return;
             }
+            const db = firebase.firestore();
             const userDoc = await db.collection('users').doc(user.uid).get();
             if (userDoc.exists && userDoc.data().isAdmin) {
                 deleteBtn.style.display = '';
                 deleteBtn.onclick = async function() {
                     if (confirm("Jeste li sigurni da želite izbrisati ovaj element?")) {
                         try {
-                            await db.collection('elements').doc(elementId).delete();
+                            await fetch(`http://localhost:3001/api/elements/${elementId}`, {
+                                method: 'DELETE'
+                            });
                             alert("Element uspješno izbrisan.");
                             window.location.href = "elements.html";
                         } catch (error) {
@@ -321,27 +300,28 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 async function showBeginnerElements() {
-    const db = firebase.firestore();
     const gallery = document.querySelector('.gallery');
     if (!gallery) return;
 
     gallery.innerHTML = "Učitavanje...";
 
     try {
-        const snapshot = await db.collection('elements').where('level', '==', 'Beginner').limit(8).get();
-        if (snapshot.empty) {
+        const response = await fetch('http://localhost:3001/api/elements');
+        const allElements = await response.json();
+        const beginnerElements = allElements.filter(el => el.level === 'Beginner').slice(0, 8);
+
+        if (beginnerElements.length === 0) {
             gallery.innerHTML = "<p>Nema beginner elemenata za prikaz.</p>";
             return;
         }
 
         gallery.innerHTML = "";
-        snapshot.forEach(doc => {
-            const data = doc.data();
+        beginnerElements.forEach(data => {
             let imageUrl = "images/logo-big.png";
             if (data.image && data.image.startsWith('http')) imageUrl = data.image;
 
             const link = document.createElement('a');
-            link.href = `element-page.html?id=${doc.id}`;
+            link.href = `element-page.html?id=${data.id}`;
             link.style.textDecoration = "none";
 
             const el = document.createElement('div');

@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (pathname.endsWith("add-element.html")) {
 
         const form = document.querySelector('form');
-        const db = firebase.firestore();
         const storage = firebase.storage();
         const errorDiv = document.getElementById('add-element-error');
 
@@ -66,9 +65,15 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             // dodavanje u fs db
             try {
-                await db.collection('elements').doc(id).set(elementData);
+                console.log("Sending POST to API:", elementData);
+                await fetch('http://localhost:3001/api/elements', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(elementData)
+                });
                 errorDiv.textContent = "";
                 window.location.href = `element-page.html?id=${id}`;
+                window.location.reload();
             } catch (err) {
                 errorDiv.textContent = "Greška pri dodavanju elementa: " + err.message;
             }
@@ -90,8 +95,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     if(pathname.endsWith("edit-element.html")) {
-            
-        const db = firebase.firestore();
         const storage = firebase.storage();
         const errorDiv = document.getElementById('edit-element-error');
         const form = document.querySelector('form');
@@ -105,13 +108,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         // forma ispunjena da bi se editala
+        let data = null;
         try {
-            const doc = await db.collection('elements').doc(elementId).get();
-            if (!doc.exists) {
+            const response = await fetch('http://localhost:3001/api/elements');
+            const elements = await response.json();
+            data = elements.find(el => el.id === elementId);
+            if (!data) {
                 errorDiv.textContent = "Element nije pronađen.";
                 return;
             }
-            const data = doc.data();
             document.getElementById('name').value = data.name || "";
             document.getElementById('description').value = data.description || "";
             if (typeof data.level !== "undefined") {
@@ -175,7 +180,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             // update na fs db
             try {
-                await db.collection('elements').doc(elementId).update(updateData);
+                await fetch(`http://localhost:3001/api/elements/${elementId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updateData)
+                });
                 errorDiv.textContent = "";
                 window.location.href = `element-page.html?id=${elementId}`;
             } catch (err) {
