@@ -219,7 +219,8 @@ function checkAnswers() {
 
 function handleImageClick(e) {
     if (gameState.gameCompleted) {
-        window.location.href = 'element-page.html';
+        const elementId = e.target.dataset.element;
+        window.location.href = `element-page.html?id=${encodeURIComponent(elementId)}`;
     }
 }
 

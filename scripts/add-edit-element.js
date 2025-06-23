@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 });
                 errorDiv.textContent = "";
                 window.location.href = `element-page.html?id=${id}`;
-                window.location.reload();
             } catch (err) {
                 errorDiv.textContent = "Greška pri dodavanju elementa: " + err.message;
             }
